@@ -1,5 +1,13 @@
 package com.cgm.qanda;
-
+/**  
+*  
+* @author  Manjunath Golla Bala
+* @version 0.1 
+* This class defines Commandline Runner using scanner can provide input validate the question and answers
+* @features   #Ask question #submit answer 
+* @see output like sample #Ask Question-(What is your Favorite Vacation Spots?),#submit answer-(What is your Favorite Vacation Spots?"Paris""Interlaken""Dubai")
+*    
+*/ 
 import com.cgm.qanda.service.QuestionAnswerService;
 import com.cgm.qanda.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,4 +86,5 @@ public class QuestionRunner implements CommandLineRunner {
             System.out.println("Invlid format. Format should be " + "<que>" + "?" + "\"" + "<ans1>" + "\"" + "<ans2>" + "\"" + "...");
         }
     }
+    
 }

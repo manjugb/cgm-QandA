@@ -1,4 +1,4 @@
-package com.cgm.qanda.dataaccessobject;
+ package com.cgm.qanda.dataaccessobject;
 
 import com.cgm.qanda.QnAApplication;
 import com.cgm.qanda.dataobject.Answer;
@@ -41,12 +41,14 @@ public class QuestionRepositoryTest {
         assertEquals("question1", qq.getQuestion());
         repository.flush();
     }
-
+    
     private Question createUserEntity() {
         Question question = new Question();
         question.setQuestion("question1");
         Answer answer = new Answer();
         answer.setAnswer("answer1");
+        answer.setAnswer("answer2");
+        answer.setAnswer("answer3");
         Set<Answer> set = new HashSet<>();
         set.add(answer);
         return question;

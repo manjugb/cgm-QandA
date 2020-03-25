@@ -1,5 +1,12 @@
 package com.cgm.qanda.dataaccessobject;
-
+/**  
+*  
+* @author  Manjunath Golla Bala
+* @version 0.1 
+* @description JpaRepository is JPA specific extension of Repository. It contains the full API of CrudRepository and PagingAndSortingRepository. So it contains API for basic CRUD operations and also API for pagination and sorting 
+* @features CRUD operations from h2 database
+* *    
+*/ 
 import com.cgm.qanda.dataobject.Answer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
