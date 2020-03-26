@@ -1,4 +1,11 @@
 package com.cgm.qanda.service;
+/**
+ * ValidationUtil.java - This class defines the validation of question and answer and Validation of question and answer
+ * Verify that data is correctly provided as service
+ * @author Manjunath Golla Bala
+ * @version 1.0
+ * 
+ */
 
 import com.cgm.qanda.dataaccessobject.AnswerRepository;
 import com.cgm.qanda.dataaccessobject.QuestionRepository;

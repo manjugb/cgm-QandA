@@ -5,12 +5,19 @@ import com.cgm.qanda.dataobject.Answer;
 import com.cgm.qanda.dataobject.Question;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -23,8 +30,10 @@ import static org.junit.Assert.assertNotNull;
 @ContextConfiguration(classes = QnAApplication.class,
         initializers = ConfigFileApplicationContextInitializer.class)
 public class QuestionRepositoryTest {
+	
+	
 
-    @Autowired
+    @Autowired()
     QuestionRepository repository;
 
     @Test
@@ -41,6 +50,10 @@ public class QuestionRepositoryTest {
         assertEquals("question1", qq.getQuestion());
         repository.flush();
     }
+    
+    
+   
+    
     
     private Question createUserEntity() {
         Question question = new Question();

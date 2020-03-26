@@ -1,8 +1,9 @@
 package com.cgm.qanda.util;
 
+import java.util.regex.Pattern;
+
 /**
- * ValidationUtil.java - This class defines the validation of input as a
- * String,Validation of input and format
+ * ValidationUtil.java - This class defines the validation of input as a  String,Validation of input and format
  * 
  * @author Manjunath Golla Bala
  * @version 1.0
@@ -17,11 +18,11 @@ public class ValidationUtil {
 	 * Precondition: 'input' should contain at least one element, the question.
 	 *
 	 * @param input the command-line arguments.
-	 * @return boolean as false if 'input' not contains and more than 256 and boolean as true if 'input' contains between 0 and 25
+	 * @return boolean as false if 'input' not contains and more than 256 and boolean as true if 'input' contains between 0 and 255
 	 */
 
 	public static boolean validateLength(String input) {
-		if (input == null || input.length() > 256) {
+		if (input == null || input.length() > 256 || input == "") {
 			return false;
 		}
 		return true;
@@ -73,6 +74,7 @@ public class ValidationUtil {
 			return true;
 		}
 		return false;
+		
 	}
 	
 	/**

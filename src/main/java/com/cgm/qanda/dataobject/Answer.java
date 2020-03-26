@@ -1,7 +1,9 @@
 package com.cgm.qanda.dataobject;
-/*@author:
- *@Description:This class defines variables or attributes,setter and getter methods 
- *which interacts with h2 database using spring boot
+
+/**
+ * Answer.java - This class defines variables or attributes,setter and getter methods,which interacts with h2 database using spring boot
+ * @author Manjunath Golla Bala
+ * @version 1.0
  * 
  */
 

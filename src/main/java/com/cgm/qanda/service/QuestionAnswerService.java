@@ -1,7 +1,5 @@
 package com.cgm.qanda.service;
-/*@author:
- * 
- */
+
 import com.cgm.qanda.dataobject.Question;
 
 import java.util.List;
