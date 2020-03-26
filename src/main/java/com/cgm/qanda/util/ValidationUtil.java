@@ -49,13 +49,13 @@ public class ValidationUtil {
 	 * Precondition: 'input' should contain at least one element, the question.
 	 *
 	 * @param input the command-line arguments.
-	 * @return boolean as false if not 'input' contains regular expression("^[0-9]+[a-zA-Z][a-zA-Z0-9]*$") and  boolean as true if  'input' contains regular expression
-	 *         ("^[0-9]+[a-zA-Z][a-zA-Z0-9]*$")
+	 * @return boolean as false if not 'input' contains regular expression("^[A-Za-z0-9]+") and  boolean as true if  'input' contains regular expression
+	 *         ("[A-Za-z0-9]+")
 	 */
 	public static boolean validateIsAlpanumeric(String input) {
-		if (input.contains("^[0-9]+[a-zA-Z][a-zA-Z0-9]*$")) {
+		if (input.matches("[A-Za-z0-9]+?") || input.contains("?")) {
 			return true;
-		}
+		}else
 		return false;
 	}
 
@@ -66,11 +66,11 @@ public class ValidationUtil {
 	 *
 	 * @param input the command-line arguments.
 	 * @return boolean as false if not 'input' contains regular expression (("^[a-zA-Z0-9]+$")) and  boolean as true if  'input' contains regular expression
-	 *         (("^[a-zA-Z0-9]+$"))
+	 *         (("[!@#$%&*()_+=|<>?{}\\[\\]~-]"))
 	 */
 
-	public static boolean validateIsNonAlpanumeric(String input) {
-		if (input.contains("^[a-zA-Z0-9]+$")) {
+	public static boolean validateIsSpecialchar(String input) {
+		if (input.contains("^[!@#$%&*()_+=|<>?{}\\\\[\\\\]~-]")) {
 			return true;
 		}
 		return false;
