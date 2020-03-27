@@ -44,6 +44,7 @@ public class ValidationUtil {
 	}
 
 	/**
+	 * This test verifies that String contain alpha characters with special character ?
 	 * Extracts the user's question from the input arguments.
 	 *
 	 * Precondition: 'input' should contain at least one element, the question.
@@ -52,7 +53,7 @@ public class ValidationUtil {
 	 * @return boolean as false if not 'input' contains regular expression("^[A-Za-z0-9]+") and  boolean as true if  'input' contains regular expression
 	 *         ("[A-Za-z0-9]+")
 	 */
-	public static boolean validateIsAlpanumeric(String input) {
+	public static boolean validateIsAlphaSpecial(String input) {
 		if (input.matches("[A-Za-z]+?") || input.contains("?")) {
 			return true;
 		}else
@@ -62,6 +63,7 @@ public class ValidationUtil {
 	
 	
 	/**
+	 * This Test verifies that String is empty or not
 	 * Extracts the user's question from the input arguments.
 	 *
 	 * Precondition: 'input' should contain at least one element, the question.
@@ -92,6 +94,7 @@ public class ValidationUtil {
 	 * @param input the command-line arguments.
 	 * @return boolean as false if 'input' not contains and more than 256 and boolean as true if 'input' contains between 0 and 255
 	 */
+	//(?=^.{3,30}$)^([A-Za-z][\s]?)+$,^.{0,255}$ tried this regex
 
 	public static boolean validateLengthRegex(String input) {
 		if (input == null || input.length() > 256) {
