@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class QuestionAnswerServiceImpl implements QuestionAnswerService {
     private static final Logger log = LoggerFactory.getLogger(QuestionAnswerServiceImpl.class);
-
+    //private ValidationUtil Vutil = new ValidationUtil();
     @Autowired
     QuestionRepository qRep;
     @Autowired

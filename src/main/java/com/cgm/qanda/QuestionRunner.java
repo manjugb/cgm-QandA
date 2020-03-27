@@ -1,13 +1,12 @@
 package com.cgm.qanda;
-/**  
-*  
-* @author  Manjunath Golla Bala
-* @version 0.1 
-* This class defines Commandline Runner using scanner can provide input validate the question and answers
-* @features   #Ask question #submit answer 
-* @see output like sample #Ask Question-(What is your Favorite Vacation Spots?),#submit answer-(What is your Favorite Vacation Spots?"Paris""Interlaken""Dubai")
-*    
-*/ 
+/**
+ * QuestionRunner.java - this class defines run method to run using @Profile
+ * Validate the question and answer 
+ * @author Manjunath Golla Bala
+ * @version 1.0
+ * 
+ */
+
 import com.cgm.qanda.service.QuestionAnswerService;
 import com.cgm.qanda.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ import java.util.Scanner;
 @Component
 @Profile("!test")
 public class QuestionRunner implements CommandLineRunner {
-
+	// private ValidationUtil vutil = new ValidationUtil();
     @Autowired
     QuestionAnswerService service;
 

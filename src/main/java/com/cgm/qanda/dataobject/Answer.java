@@ -4,7 +4,6 @@ package com.cgm.qanda.dataobject;
  * Answer.java - This class defines variables or attributes,setter and getter methods,which interacts with h2 database using spring boot
  * @author Manjunath Golla Bala
  * @version 1.0
- * 
  */
 
 import javax.persistence.Entity;
