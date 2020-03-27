@@ -10,6 +10,7 @@ import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -29,6 +30,7 @@ import static org.junit.Assert.assertNotNull;
 @ActiveProfiles("test")
 @ContextConfiguration(classes = QnAApplication.class,
         initializers = ConfigFileApplicationContextInitializer.class)
+@SpringBootTest
 public class QuestionRepositoryTest {
 	
 	
@@ -50,22 +52,15 @@ public class QuestionRepositoryTest {
         assertEquals("question1", qq.getQuestion());
         repository.flush();
     }
-    
-    
-   
-    
-    
+
     private Question createUserEntity() {
         Question question = new Question();
         question.setQuestion("question1");
         Answer answer = new Answer();
         answer.setAnswer("answer1");
-        answer.setAnswer("answer2");
-        answer.setAnswer("answer3");
         Set<Answer> set = new HashSet<>();
         set.add(answer);
         return question;
     }
-    
     
 }
