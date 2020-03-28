@@ -47,17 +47,27 @@ public class QuestionRepositoryTest {
     public void testSave() {
         Question question = createUserEntity();
         repository.save(question);
-        Optional<Question> q = repository.findByQuestion("question1");
+        Optional<Question> q = repository.findByQuestion("What is Your Hobbies?");
         Question qq = q.get();
-        assertEquals("question1", qq.getQuestion());
+        assertEquals("What is Your Hobbies?", qq.getQuestion());
         repository.flush();
     }
+    
+    /*@Test
+    public void testSave_one() {
+        Question question = createUserEntity();
+        repository.save(question);
+        Optional<Question> q = repository.findByQuestion("What Your Favorite Holiday Spot?");
+        Question qq = q.get();
+        assertEquals("What Your Favorite Holiday Spot?", qq.getQuestion());
+        repository.flush();
+    }*/
 
     private Question createUserEntity() {
         Question question = new Question();
-        question.setQuestion("question1");
+        question.setQuestion("What is Your Hobbies?");
         Answer answer = new Answer();
-        answer.setAnswer("answer1");
+        answer.setAnswer("reading,travelling,trucking");
         Set<Answer> set = new HashSet<>();
         set.add(answer);
         return question;
