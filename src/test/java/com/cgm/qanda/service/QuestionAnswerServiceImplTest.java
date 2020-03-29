@@ -1,38 +1,41 @@
 package com.cgm.qanda.service;
+/**
+ * TestValidationUtil.java - This class defines the validation of question as a  String,Validation of input and format with passing positive and negative values
+ *  with different combination of data
+ * @author Manjunath Golla Bala
+ * @version 1.0
+ * 
+ */
 
-import com.cgm.qanda.QnAApplication;
-import com.cgm.qanda.dataaccessobject.QuestionRepository;
-import com.cgm.qanda.dataobject.Answer;
-import com.cgm.qanda.dataobject.Question;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.cgm.qanda.QnAApplication;
+import com.cgm.qanda.dataaccessobject.QuestionRepository;
+import com.cgm.qanda.dataobject.Answer;
+import com.cgm.qanda.dataobject.Question;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("test")
 @ContextConfiguration(classes = QnAApplication.class, initializers = ConfigFileApplicationContextInitializer.class)
-@SpringBootTest
+//@SpringBootTest
 public class QuestionAnswerServiceImplTest {
 
 	@Autowired
@@ -49,7 +52,6 @@ public class QuestionAnswerServiceImplTest {
 
 	}
 
-	
 	private Question createQuestionEntity() {
 		Question question = new Question();
 		question.setQuestion("question1");
@@ -62,8 +64,18 @@ public class QuestionAnswerServiceImplTest {
 		return question;
 	}
 
+	/**
+	 * This test verifies the input string is null false if else true Extracts the
+	 * user's question from the input arguments.
+	 *
+	 * Precondition: 'input' should contain at least one element, the question.
+	 *
+	 * @param question
+	 * @param answers  with random data
+	 */
+
 	@Test
-	public void addQuestionTest_original() {
+	public void testaddQuestionTest_original() {
 		Question q = createQuestionEntity();
 		q.setQuestion("question");
 		Mockito.when(repo.save(q)).thenReturn(q);
@@ -71,12 +83,33 @@ public class QuestionAnswerServiceImplTest {
 		// answers.addAll(arg0, arg1)
 		service.addQuestion("question", "answer1");
 		List<String> answers = service.getAnswers("question");
-		answers.add("answer2");
-		assertNotNull(answers);
-		assertEquals("answer1", answers.get(0));
-		assertEquals("answer2", answers.get(1));
+		if (!answers.isEmpty()) {
+			//service.addQuestion("question", "answer1");
+			answers.add("answer2");
+			assertNotNull(answers);
+			assertEquals("answer1", answers.get(0));
+			assertEquals("answer2", answers.get(1));
+		} else {
+		    answers.clear();
+			service.addQuestion("question", "answer1");
+			answers.add("answer2");
+			assertNotNull(answers);
+			assertEquals("answer1", answers.get(0));
+			assertEquals("answer2", answers.get(1));
+		}
 
 	}
+
+	/**
+	 * This test verifies the input string is null false if else true Extracts the
+	 * user's question from the input arguments.
+	 *
+	 * Precondition: 'input' should contain at least one element, the question.
+	 * assert the data
+	 *
+	 * @param question
+	 * @param answers  with random data
+	 */
 
 	@Test
 	public void testGetAnswers_original() {
@@ -91,15 +124,29 @@ public class QuestionAnswerServiceImplTest {
 
 	}
 
+	/**
+	 * This test verifies the input string is valid with alpha with special
+	 * character against with injected data user's question from the input
+	 * arguments.
+	 *
+	 * Precondition: 'input' should contain at least one element, the question.
+	 * assert the data with injected values
+	 *
+	 * @param question with correct data
+	 * @param answers  with valid data
+	 */
+
 	@Test
-	public void testGetAnswers_success() {
+	public void testaddQuestionTest_success() {
 		Question q = createQuestionEntity();
 		q.setQuestion("What is Your Favorite Vacation Spot?");
 		Mockito.when(repo.save(q)).thenReturn(q);
 		Mockito.when(repo.findByQuestion("What is Your Favorite Vacation Spot?")).thenReturn(Optional.ofNullable(q));
 		service.addQuestion("What is Your Favorite Vacation Spot?", "Interlaken");
 		List<String> answers = service.getAnswers("What is Your Favorite Vacation Spot?");
-		if (answers != null) {
+		if (!answers.isEmpty()) {
+			//answers.clear();
+			//service.addQuestion("What is Your Favorite Vacation Spot?", "Interlaken");
 			answers.add("Paris");
 			answers.add("Amestardam");
 			// Assertions
@@ -114,78 +161,245 @@ public class QuestionAnswerServiceImplTest {
 			assertEquals(true, answers.contains("Paris"));
 			assertEquals(true, answers.contains("Amestardam"));
 		} else {
-			assertEquals(
-					"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\"",
-					answers.get(0));
-
+			// assertNotNull(answers);
+			answers.clear();
+			service.addQuestion("What is Your Favorite Vacation Spot?", "Interlaken");
+			answers.add("Paris");
+			answers.add("Amestardam");
+			// Assertions
+			assertNotNull(answers);
+			assertEquals("Interlaken", answers.get(0));
+			assertEquals("Paris", answers.get(1));
+			assertEquals("Amestardam", answers.get(2));
+			assertEquals(3, answers.size());
+			assertNotEquals(-1, answers.size());
+			assertNotEquals(null, answers.size());
+			assertEquals(true, answers.contains("Interlaken"));
+			assertEquals(true, answers.contains("Paris"));
+			assertEquals(true, answers.contains("Amestardam"));
 		}
+
 	}
+
+	/**
+	 * This test verifies the input string is invalid with null against with
+	 * injected data and verify valid error message user's question from the input
+	 * arguments.
+	 *
+	 * Precondition: 'input' should contain at least one element, the question.
+	 * assert the data with injected values
+	 *
+	 * @param question with null value
+	 * @param answers  with null value
+	 */
 
 	@Test
 	// @ParameterizedTest
 	// @ValueSource(strings = {"Hello", "JUnit5"})
-	public void testGetAnswers_null() {
+	public void testaddQuestionTest_null() {
 		Question q = createQuestionEntity();
 		q.setQuestion(null);
 		Mockito.when(repo.save(q)).thenReturn(q);
 		Mockito.when(repo.findByQuestion(null)).thenReturn(Optional.ofNullable(q));
-		service.addQuestion(null, null);
-	
+		service.addQuestion(null,null);
 		List<String> answers = service.getAnswers(null);
-		if (answers == null) {
-		// assertions
-		assertNotNull(answers);
-		@SuppressWarnings("unused")
-		String expans = "\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\"";
-		assertEquals(expans,answers.get(0));
-		assertNotEquals("Paris", answers.get(0));
-		assertNotEquals("Amestardam", answers.get(0));
-		assertEquals(1, answers.size());
-		assertNotEquals(-1, answers.size());
-		assertNotEquals(null, answers.size());
-		assertEquals(true, answers.contains(
-				"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\""));
-		assertEquals(false, answers.contains("Paris"));}
-		
+		if (!answers.isEmpty()) {
+			//answers.clear();
+			// assertions
+			answers.add(null);
+			answers.add(null);
+			assertNotNull(answers);
+			assertEquals("\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\"", answers.get(0));
+			assertNotEquals("Dubai", answers.get(0));
+			assertNotEquals("Rome", answers.get(0));
+			assertEquals(3, answers.size());
+			assertNotEquals(-1, answers.size());
+			assertNotEquals(null, answers.size());
+			assertEquals(true, answers.contains(
+					"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\""));
+			assertEquals(false, answers.contains("Paris"));
+		}else {
+			answers.add(null);
+			answers.add(null);
+			assertNotNull(answers);
+			assertEquals("\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\"", answers.get(0));
+			assertNotEquals("Dubai", answers.get(0));
+			assertNotEquals("Rome", answers.get(0));
+			assertEquals(3, answers.size());
+			assertNotEquals(-1, answers.size());
+			assertNotEquals(null, answers.size());
+			assertEquals(true, answers.contains(
+					"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\""));
+			assertEquals(false, answers.contains("Paris"));
+		}
+
 	}
 
+	/**
+	 * This test verifies the input string is invalid with null against with
+	 * injected data and verify valid error message user's question from the input
+	 * arguments.
+	 *
+	 * Precondition: 'input' should contain at least one element, the question.
+	 * assert the data with injected values
+	 *
+	 * @param question with null ""
+	 * @param answers  with valid three empty values
+	 */
+
 	@Test
-	public void testGetAnswers_emptyString() {
+	public void testtestaddQuestionTest_emptyquestion_emptyanwers() {
 		Question q = createQuestionEntity();
 		q.setQuestion("");
 		Mockito.when(repo.save(q)).thenReturn(q);
 		Mockito.when(repo.findByQuestion("")).thenReturn(Optional.ofNullable(q));
-		service.addQuestion("", "Interlaken");
+		service.addQuestion("", "");
 		List<String> answers = service.getAnswers("");
-		if (answers == null) {
-			answers.add("Paris");
-			answers.add("London");
+		// answers.clear();
+		answers.add("");
+		answers.add("");
 		// assertions
 		assertNotNull(answers);
-		@SuppressWarnings("unused")
-		String expans = "\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\"";
-		assertEquals(expans,answers.get(0));
-		assertEquals("Interlaken", answers.get(0));
-		assertEquals("Paris", answers.get(1));
-		assertEquals("London", answers.get(1));
-		assertEquals(3, answers.size());
+		// assertEquals("kerala",answers.get(0));
+		assertEquals("", answers.get(1));
+		assertEquals("", answers.get(2));
+		assertEquals(true, answers.contains(""));
+		assertEquals(false, answers.contains("London"));
+		assertEquals(3, answers.size()); // How come this size would be i was given any value but all "" gives 0
 		assertNotEquals(-1, answers.size());
 		assertNotEquals(null, answers.size());
 		assertEquals(true, answers.contains(
 				"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\""));
-		assertEquals(false, answers.contains("Paris"));}
+		assertEquals(false, answers.contains("Paris"));
+	}
+
+	/**
+	 * This test verifies the input string is invalid with null against with
+	 * injected data and verify valid error message user's question from the input
+	 * arguments.
+	 *
+	 * Precondition: 'input' should contain at least one element, the question.
+	 * assert the data with injected values
+	 *
+	 * @param question with null ""
+	 * @param answers  with valid three values
+	 */
+
+	@Test
+	public void testtestaddQuestionTest_emptyqString_oneanswer() {
+		Question q = createQuestionEntity();
+		q.setQuestion("");
+		Mockito.when(repo.save(q)).thenReturn(q);
+		Mockito.when(repo.findByQuestion("")).thenReturn(Optional.ofNullable(q));
+		service.addQuestion("", "Kerala");
+		List<String> answers = service.getAnswers("");
+
+		answers.add("");
+		answers.add("");
+		// assertions
+		assertNotNull(answers);
+		assertEquals("Kerala", answers.get(0));
+		assertEquals("", answers.get(1));
+		assertEquals("", answers.get(2));
+		assertEquals(3, answers.size());
+		assertNotEquals(-1, answers.size());
+		assertNotEquals(null, answers.size());
+		assertEquals(false, answers.contains(
+				"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\""));
+		assertEquals(false, answers.contains("Paris"));
+		assertEquals(false, answers.contains("London"));
+		assertNotEquals(true, answers.contains("Bangalore"));
+
+	}
+
+	/**
+	 * This test verifies the input string is invalid with null against with
+	 * injected data and verify valid error message user's question from the input
+	 * arguments.
+	 *
+	 * Precondition: 'input' should contain at least one element, the question.
+	 * assert the data with injected values
+	 *
+	 * @param question with null ""
+	 * @param answers  with valid three values
+	 */
+
+	@Test
+	public void testGetAnswers_emptyString_two_answers() {
+		Question q = createQuestionEntity();
+		q.setQuestion("");
+		Mockito.when(repo.save(q)).thenReturn(q);
+		Mockito.when(repo.findByQuestion("")).thenReturn(Optional.ofNullable(q));
+		service.addQuestion("", "");
+		List<String> answers = service.getAnswers("");
+
+		answers.add("Paris");
+		answers.add("London");
+		// assertions
+		assertNotNull(answers);
+		// assertEquals("", answers.get(0));
+		assertEquals("Paris", answers.get(1));
+		assertEquals("London", answers.get(2));
+		assertEquals(3, answers.size());
+		// assertNotEquals(-1, answers.size());
+		assertNotEquals(null, answers.size());
+		assertEquals(false, answers.contains(
+				"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\""));
+		assertEquals(true, answers.contains("Paris"));
+		assertEquals(true, answers.contains("London"));
+		assertNotEquals(true, answers.contains("Bangalore"));
+
+	}
+
+	/**
+	 * This test verifies the input string is invalid with null against with
+	 * injected data and verify valid error message user's question from the input
+	 * arguments.
+	 *
+	 * Precondition: 'input' should contain at least one element, the question.
+	 * assert the data with injected values
+	 *
+	 * @param question with null ""
+	 * @param answers  with valid mandatory answer with one additional answer
+	 */
+
+	@Test
+	public void testGetAnswers_emptyString_two_answer() {
+		Question q = createQuestionEntity();
+		q.setQuestion("");
+		Mockito.when(repo.save(q)).thenReturn(q);
+		Mockito.when(repo.findByQuestion("")).thenReturn(Optional.ofNullable(q));
+		service.addQuestion("", "Kerala");
+		List<String> answers = service.getAnswers("");
+
+		answers.add("Paris");
+		answers.add("");
+		// assertions
+		assertNotNull(answers);
+		assertEquals("Kerala", answers.get(0));
+		assertEquals("Paris", answers.get(1));
+		assertEquals("", answers.get(2));
+		assertEquals(3, answers.size());
+		assertNotEquals(-1, answers.size());
+		assertNotEquals(null, answers.size());
+		assertEquals(false, answers.contains(
+				"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\""));
+		assertEquals(true, answers.contains("Paris"));
+		assertEquals(true, answers.contains("Kerala"));
+		assertNotEquals(true, answers.contains("Bangalore"));
+
 	}
 
 	@Test
-	public void addQuestionTest() {
+	public void testaddQuestionTest() {
 		Question q = createQuestionEntity();
 		q.setQuestion("What Your Favorite Vacation Spot?");
 		Mockito.when(repo.save(q)).thenReturn(q);
 		Mockito.when(repo.findByQuestion("What Your Favorite Vacation Spot?")).thenReturn(Optional.ofNullable(q));
-		service.addQuestion("What Your Favorite Vacation Spot?", "Interlaken,Paris,Amestardam");
+		service.addQuestion("What Your Favorite Vacation Spot?", "Thailand");
 		List<String> answers = service.getAnswers("What Your Favorite Vacation Spot?");
 		assertNotNull(answers);
-		assertEquals("Interlaken,Paris,Amestardam", answers.get(0));
+		assertEquals("Thailand", answers.get(0));
 		assertNotEquals("Paris", answers.get(0));
 		assertNotEquals(null, answers.get(0));
 		assertNotEquals("3424sfsfs", answers.get(0));
@@ -194,25 +408,24 @@ public class QuestionAnswerServiceImplTest {
 
 	}
 
-	
-
 	@Test
-	public void addQuestionTest_empty_special() {
+	public void testaddQuestionTest_empty_special() {
 		Question q = createQuestionEntity();
 		q.setQuestion("?");
 		Mockito.when(repo.save(q)).thenReturn(q);
 		Mockito.when(repo.findByQuestion("?")).thenReturn(Optional.ofNullable(q));
-		service.addQuestion("?", "Interlaken");
+		service.addQuestion("?", "Malaysia");
 		List<String> answers = service.getAnswers("?");
-		
-			answers.add("Paris");
-			answers.add("London");
+
+		answers.add("Paris");
+		answers.add("London");
 		// assertions
 		assertNotNull(answers);
-		//@SuppressWarnings("unused")
-		//String expans = "\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\"";
-		//assertEquals(expans,answers.get(0));
-		assertEquals("Interlaken", answers.get(0));
+		// @SuppressWarnings("unused")
+		// String expans = "\"the answer to life, universe and everything is 42\"
+		// according to\"The hitchhikers guide to the Galaxy\"";
+		// assertEquals(expans,answers.get(0));
+		assertEquals("Malaysia", answers.get(0));
 		assertEquals("Paris", answers.get(1));
 		assertEquals("London", answers.get(2));
 		assertEquals(3, answers.size());
@@ -220,12 +433,12 @@ public class QuestionAnswerServiceImplTest {
 		assertNotEquals(null, answers.size());
 		assertEquals(false, answers.contains(
 				"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\""));
-		assertEquals(false, answers.contains("Paris"));
-	
+		assertEquals(true, answers.contains("Paris"));
+
 	}
 
 	@Test
-	public void addQuestionTest_null_message() {
+	public void testaddQuestionTest_null_message() {
 		Question q = createQuestionEntity();
 		q.setQuestion(null);
 		Mockito.when(repo.save(q)).thenReturn(q);
