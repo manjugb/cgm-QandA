@@ -92,9 +92,7 @@ public class QuestionAnswerServiceImplTest {
 			assertEquals("answer2", answers.get(1));
 		} else {
 
-			for (String answer : answers) {
-				System.out.println(answer);
-			}
+			System.out.println("Invlid format. Format should be " + "<que>" + "?" + "\"" + "<ans1>" + "\"" + "<ans2>" + "\"" + "...");
 		}
 	}
 
@@ -164,7 +162,7 @@ public class QuestionAnswerServiceImplTest {
 			assertEquals(true, answers.contains("Amestardam"));
 		} else {
 
-			System.out.println("Answer length is more than 256 characters for answer " + answers);
+			System.out.println("Invlid format. Format should be " + "<que>" + "?" + "\"" + "<ans1>" + "\"" + "<ans2>" + "\"" + "...");
 		}
 
 	}
@@ -198,7 +196,7 @@ public class QuestionAnswerServiceImplTest {
 			assertEquals("Paris", answers.get(2));
 		} else {
 
-			System.out.println("Answer length is more than 256 characters for answer " + answers);
+			System.out.println("Invlid format. Format should be " + "<que>" + "?" + "\"" + "<ans1>" + "\"" + "<ans2>" + "\"" + "...");
 		}
 
 	}
@@ -246,7 +244,7 @@ public class QuestionAnswerServiceImplTest {
 			assertEquals(false, answers.contains("Paris"));
 		} else {
 
-			System.out.println("Answer length is more than 256 characters for answer " + answers);
+			System.out.println("Invlid format. Format should be " + "<que>" + "?" + "\"" + "<ans1>" + "\"" + "<ans2>" + "\"" + "...");
 		}
 
 	}
@@ -290,7 +288,7 @@ public class QuestionAnswerServiceImplTest {
 			assertEquals(false, answers.contains("Paris"));
 		} else {
 
-			System.out.println("Answer length is more than 256 characters for answer " + answers);
+			System.out.println("Invlid format. Format should be " + "<que>" + "?" + "\"" + "<ans1>" + "\"" + "<ans2>" + "\"" + "...");
 		}
 
 	}
@@ -334,7 +332,7 @@ public class QuestionAnswerServiceImplTest {
 			assertNotEquals(true, answers.contains("Bangalore"));
 		} else {
 
-			System.out.println("Answer length is more than 256 characters for answer " + answers);
+			System.out.println("Invlid format. Format should be " + "<que>" + "?" + "\"" + "<ans1>" + "\"" + "<ans2>" + "\"" + "...");
 		}
 
 	}
@@ -378,7 +376,7 @@ public class QuestionAnswerServiceImplTest {
 			assertNotEquals(true, answers.contains("Bangalore"));
 		} else {
 
-			System.out.println("Answer length is more than 256 characters for answer " + answers);
+			System.out.println("Invlid format. Format should be " + "<que>" + "?" + "\"" + "<ans1>" + "\"" + "<ans2>" + "\"" + "...");
 		}
 
 	}
@@ -421,7 +419,7 @@ public class QuestionAnswerServiceImplTest {
 			assertNotEquals(true, answers.contains("Bangalore"));
 		} else {
 
-			System.out.println("Answer length is more than 256 characters for answer " + answers);
+			System.out.println("Invlid format. Format should be " + "<que>" + "?" + "\"" + "<ans1>" + "\"" + "<ans2>" + "\"" + "...");
 		}
 
 	}
@@ -452,7 +450,7 @@ public class QuestionAnswerServiceImplTest {
 			assertEquals(true, answers.contains("you"));
 		} else {
 
-			System.out.println("Answer length is more than 256 characters for answer " + answers);
+			System.out.println("Invlid format. Format should be " + "<que>" + "?" + "\"" + "<ans1>" + "\"" + "<ans2>" + "\"" + "...");
 		}
 
 	}
