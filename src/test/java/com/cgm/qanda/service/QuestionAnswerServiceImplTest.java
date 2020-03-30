@@ -10,6 +10,7 @@ package com.cgm.qanda.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 import java.util.List;
@@ -27,11 +28,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
 
 import com.cgm.qanda.QnAApplication;
 import com.cgm.qanda.dataaccessobject.QuestionRepository;
 import com.cgm.qanda.dataobject.Answer;
 import com.cgm.qanda.dataobject.Question;
+import com.cgm.qanda.util.ValidationUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("test")
@@ -77,24 +80,40 @@ public class QuestionAnswerServiceImplTest {
 
 	@Test
 	public void testaddQuestionTest_original() {
+		String ans1 = "answer1";
+		String ans2 = "Sfjlksjflsjflsjlskjfklsdjlfjskjfslkjflskdjfksdfjsdkfjskjfsdlkfjsdlkfdsl\\n\" + \n" + 
+				"				\"sdfsdkfjsdklfjsdlkjflksdjfsdlkfjsdlfjlksdjfsldflkdsfjdsjslkjfskfjlsdfll\\n\" + \n" + 
+				"				\"sdfkjsdlfjlskdfjlskdjflsdkjfsdlkfjsdlkfjlsdjfslskdjfsdlkjfksdjfdslkjfdsl\\n\" + \n" + 
+				"				\"sdfjsdklfjsdlkjfsdlkfjlksdjfsldkfjslkdfjsdlkjfksldjfklsjfa;fjlsflskf;fjkajfdsklfs?";
+		String ans3 = "answer3";
+		String qq = "Question?";
 		Question q = createQuestionEntity();
-		q.setQuestion("question");
+		q.setQuestion("Question?");
 		Mockito.when(repo.save(q)).thenReturn(q);
-		Mockito.when(repo.findByQuestion("question")).thenReturn(Optional.ofNullable(q));
-		// answers.addAll(arg0, arg1)
-		service.addQuestion("question", "answer1");
-		List<String> answers = service.getAnswers("question");
+		Mockito.when(repo.findByQuestion(qq)).thenReturn(Optional.ofNullable(q));
+		service.addQuestion(qq, ans1);
+		List<String> answers = service.getAnswers(qq);
 		if (answers != null && !answers.isEmpty()) {
-			// service.addQuestion("question", "answer1");
-			answers.add("answer2");
-			assertNotNull(answers);
-			assertEquals("answer1", answers.get(0));
-			assertEquals("answer2", answers.get(1));
-		} else {
+			// answers
+			
+				//service.addQuestion("question", ans1);
+				answers.add(ans2);
+				answers.add(ans3);
+				assertNotNull(answers);
+				assertEquals(ans1, answers.get(0));
+				assertEquals(ans2, answers.get(1));
+				assertEquals(ans3, answers.get(2));
+				answers.clear();
+			} 
+				else {
+					System.out.println("Answer length is more than 256 characters for answer " + answers);}
 
-			System.out.println("Invlid format. Format should be " + "<que>" + "?" + "\"" + "<ans1>" + "\"" + "<ans2>" + "\"" + "...");
+		
+		
 		}
-	}
+		// Answers
+
+	
 
 	/**
 	 * This test verifies the input string is null false if else true Extracts the
@@ -160,9 +179,12 @@ public class QuestionAnswerServiceImplTest {
 			assertEquals(true, answers.contains("Interlaken"));
 			assertEquals(true, answers.contains("Paris"));
 			assertEquals(true, answers.contains("Amestardam"));
+			assertEquals(true, answers.contains("Brussels"));
+			assertEquals(true, answers.contains("Linz"));
+			answers.clear();
 		} else {
 
-			System.out.println("Invlid format. Format should be " + "<que>" + "?" + "\"" + "<ans1>" + "\"" + "<ans2>" + "\"" + "...");
+			System.out.println("Answer length is more than 256 characters for answer " + answers);
 		}
 
 	}
@@ -194,9 +216,10 @@ public class QuestionAnswerServiceImplTest {
 					answers.get(0));
 			assertEquals("Interlaken", answers.get(1));
 			assertEquals("Paris", answers.get(2));
+			answers.clear();
 		} else {
 
-			System.out.println("Invlid format. Format should be " + "<que>" + "?" + "\"" + "<ans1>" + "\"" + "<ans2>" + "\"" + "...");
+			System.out.println("Answer length is more than 256 characters for answer " + answers);
 		}
 
 	}
@@ -242,9 +265,10 @@ public class QuestionAnswerServiceImplTest {
 			assertEquals(true, answers.contains(
 					"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\""));
 			assertEquals(false, answers.contains("Paris"));
+			answers.clear();
 		} else {
 
-			System.out.println("Invlid format. Format should be " + "<que>" + "?" + "\"" + "<ans1>" + "\"" + "<ans2>" + "\"" + "...");
+			System.out.println("Answer length is more than 256 characters for answer " + answers);
 		}
 
 	}
@@ -286,9 +310,10 @@ public class QuestionAnswerServiceImplTest {
 			assertEquals(false, answers.contains(
 					"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\""));
 			assertEquals(false, answers.contains("Paris"));
+			answers.clear();
 		} else {
 
-			System.out.println("Invlid format. Format should be " + "<que>" + "?" + "\"" + "<ans1>" + "\"" + "<ans2>" + "\"" + "...");
+			System.out.println("Answer length is more than 256 characters for answer " + answers);
 		}
 
 	}
@@ -330,9 +355,10 @@ public class QuestionAnswerServiceImplTest {
 			assertEquals(false, answers.contains("Paris"));
 			assertEquals(false, answers.contains("London"));
 			assertNotEquals(true, answers.contains("Bangalore"));
+			answers.clear();
 		} else {
 
-			System.out.println("Invlid format. Format should be " + "<que>" + "?" + "\"" + "<ans1>" + "\"" + "<ans2>" + "\"" + "...");
+			System.out.println("Answer length is more than 256 characters for answer " + answers);
 		}
 
 	}
@@ -374,9 +400,10 @@ public class QuestionAnswerServiceImplTest {
 			assertEquals(true, answers.contains("Paris"));
 			assertEquals(true, answers.contains("London"));
 			assertNotEquals(true, answers.contains("Bangalore"));
+			answers.clear();
 		} else {
 
-			System.out.println("Invlid format. Format should be " + "<que>" + "?" + "\"" + "<ans1>" + "\"" + "<ans2>" + "\"" + "...");
+			System.out.println("Answer length is more than 256 characters for answer " + answers);
 		}
 
 	}
@@ -417,9 +444,10 @@ public class QuestionAnswerServiceImplTest {
 			assertEquals(true, answers.contains("Paris"));
 			assertEquals(true, answers.contains("trim"));
 			assertNotEquals(true, answers.contains("Bangalore"));
+			answers.clear();
 		} else {
 
-			System.out.println("Invlid format. Format should be " + "<que>" + "?" + "\"" + "<ans1>" + "\"" + "<ans2>" + "\"" + "...");
+			System.out.println("Answer length is more than 256 characters for answer " + answers);
 		}
 
 	}
@@ -448,9 +476,11 @@ public class QuestionAnswerServiceImplTest {
 			assertEquals(false, answers.contains("Paris"));
 			assertEquals(true, answers.contains("fine"));
 			assertEquals(true, answers.contains("you"));
+			answers.clear();
 		} else {
+			System.out.println("Question length is more than 256 characters for answer " + answers);
 
-			System.out.println("Invlid format. Format should be " + "<que>" + "?" + "\"" + "<ans1>" + "\"" + "<ans2>" + "\"" + "...");
+			System.out.println("Answer length is more than 256 characters for answer " + answers);
 		}
 
 	}
@@ -461,13 +491,21 @@ public class QuestionAnswerServiceImplTest {
 		q.setQuestion("What Your Favorite Vacation Spot?");
 		Mockito.when(repo.save(q)).thenReturn(q);
 		Mockito.when(repo.findByQuestion("What Your Favorite Vacation Spot?")).thenReturn(Optional.ofNullable(q));
-		service.addQuestion("What Your Favorite Vacation Spot?", "Thailand");
+		service.addQuestion("What Your Favorite Vacation Spot?",
+				"Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready spring applications.ava-based framework used to create a micro Service. It is developed by Pivotal Team and ");
 		List<String> answers = service.getAnswers("What Your Favorite Vacation Spot?");
 		assertNotNull(answers);
-		assertEquals("Thailand", answers.get(0));
+		assertEquals(
+				"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\"",
+				answers.get(0));
 		assertNotEquals("Paris", answers.get(0));
 		assertNotEquals(null, answers.get(0));
-		assertNotEquals("3424sfsfs", answers.get(0));
+		assertNotEquals("3424sfsfssfsdfsdfsdfsd", answers.get(0));
+		boolean s = service.getAnswers("What Your Favorite Vacation Spot?") != null;
+		assertEquals(true, s);
+		answers.clear();
+
+		// boolean validateans = ValidationUtil.validateLength(answers);
 		// assertNotEquals("answer2", answers.get(0));
 		// assertEquals("answer2", answers.get(1));
 
@@ -499,6 +537,7 @@ public class QuestionAnswerServiceImplTest {
 		assertEquals(false, answers.contains(
 				"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\""));
 		assertEquals(true, answers.contains("Paris"));
+		answers.clear();
 
 	}
 
@@ -511,9 +550,9 @@ public class QuestionAnswerServiceImplTest {
 		service.addQuestion(null, "switzerland");
 		List<String> answers = service.getAnswers(null);
 		assertNotNull(answers);
-		String expanswer = "the answer to life, universe and everything is 42" + "according to"
-				+ "The hitchhikers guide to the Galaxy";
-		assertNotEquals(expanswer, answers.get(0));
+		String expanswer = "\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\"";
+		assertEquals(expanswer, answers.get(0));
+		answers.clear();
 
 	}
 }

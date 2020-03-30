@@ -2,6 +2,8 @@ package com.cgm.qanda.util;
 
 import java.util.regex.Pattern;
 
+import com.cgm.qanda.dataobject.Question;
+
 /**
  * ValidationUtil.java - This class defines the validation of input as a  String,Validation of input and format
  * 
@@ -106,6 +108,13 @@ public class ValidationUtil {
 		return false;
 		
 	}
+	/*
+	public static Question validateLength(Question input) {
+		if (Question == null || Question.length() > 256) {
+			return false;
+		}
+		return true;
+	}*/
 	
 
 }
