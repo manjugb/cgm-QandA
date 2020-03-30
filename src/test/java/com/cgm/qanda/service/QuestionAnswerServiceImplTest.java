@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.hibernate.AssertionFailure;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -80,40 +81,43 @@ public class QuestionAnswerServiceImplTest {
 
 	@Test
 	public void testaddQuestionTest_original() {
-		String ans1 = "answer1";
-		String ans2 = "Sfjlksjflsjflsjlskjfklsdjlfjskjfslkjflskdjfksdfjsdkfjskjfsdlkfjsdlkfdsl\\n\" + \n" + 
-				"				\"sdfsdkfjsdklfjsdlkjflksdjfsdlkfjsdlfjlksdjfsldflkdsfjdsjslkjfskfjlsdfll\\n\" + \n" + 
-				"				\"sdfkjsdlfjlskdfjlskdjflsdkjfsdlkfjsdlkfjlsdjfslskdjfsdlkjfksdjfdslkjfdsl\\n\" + \n" + 
-				"				\"sdfjsdklfjsdlkjfsdlkfjlksdjfsldkfjslkdfjsdlkjfksldjfklsjfa;fjlsflskf;fjkajfdsklfs?";
+		String ans1 = "answer";
+		String ans2 = "anwer2";
 		String ans3 = "answer3";
 		String qq = "Question?";
+		if (ValidationUtil.validateAlpaCharLength(qq) == true) {
+			assertEquals(ValidationUtil.validateAlpaCharLength(qq), true);
+		} else if (ValidationUtil.validateAlpaCharLength(qq) == false){
+			assertEquals(ValidationUtil.validateAlpaCharLength(qq), false);
+		
+		}
+		
 		Question q = createQuestionEntity();
-		q.setQuestion("Question?");
+		q.setQuestion(qq);
 		Mockito.when(repo.save(q)).thenReturn(q);
 		Mockito.when(repo.findByQuestion(qq)).thenReturn(Optional.ofNullable(q));
 		service.addQuestion(qq, ans1);
 		List<String> answers = service.getAnswers(qq);
 		if (answers != null && !answers.isEmpty()) {
 			// answers
-			
-				//service.addQuestion("question", ans1);
-				answers.add(ans2);
-				answers.add(ans3);
-				assertNotNull(answers);
-				assertEquals(ans1, answers.get(0));
-				assertEquals(ans2, answers.get(1));
-				assertEquals(ans3, answers.get(2));
-				answers.clear();
-			} 
-				else {
-					System.out.println("Answer length is more than 256 characters for answer " + answers);}
 
-		
-		
+			// service.addQuestion("question", ans1);
+			answers.add(ans2);
+			answers.add(ans3);
+
+			assertNotNull(answers);
+			assertEquals(ans1, answers.get(0));
+			assertEquals(ans2, answers.get(1));
+			assertEquals(ans3, answers.get(2));
+			answers.clear();
+		} else {
+			System.out.println("Answer length is more than 256 characters for answer " + answers);
 		}
-		// Answers
 
+	}
 	
+
+	// Answers
 
 	/**
 	 * This test verifies the input string is null false if else true Extracts the
@@ -153,34 +157,46 @@ public class QuestionAnswerServiceImplTest {
 
 	@Test
 	public void testaddQuestionTest_success() {
+		String ans1 = "Pizza";
+		String ans2 = "Spagatti";
+		String ans3 = "IceCream";
+		String ans4 = "Lemon Juice";
+		String ans5 = "IceCream";
+		
+		String qq = "What is Your Favorite Food?";
+		if (ValidationUtil.validateAlpaCharLength(qq)) {
+			assertEquals(ValidationUtil.validateAlpaCharLength(qq), true);
+		} else {
+			assertEquals(ValidationUtil.validateAlpaCharLength(qq), false);
+		}
 		Question q = createQuestionEntity();
-		q.setQuestion("What is Your Favorite Vacation Spot?");
+		q.setQuestion(qq);
 		Mockito.when(repo.save(q)).thenReturn(q);
-		Mockito.when(repo.findByQuestion("What is Your Favorite Vacation Spot?")).thenReturn(Optional.ofNullable(q));
-		service.addQuestion("What is Your Favorite Vacation Spot?", "Interlaken");
-		List<String> answers = service.getAnswers("What is Your Favorite Vacation Spot?");
+		Mockito.when(repo.findByQuestion(qq)).thenReturn(Optional.ofNullable(q));
+		service.addQuestion(qq, ans1);
+		List<String> answers = service.getAnswers(qq);
+		service.addQuestion(qq, ans1);
 		if (answers != null && !answers.isEmpty()) {
-			// answers.clear();
-			// service.addQuestion("What is Your Favorite Vacation Spot?", "Interlaken");
-			answers.add("Paris");
-			answers.add("Amestardam");
-			answers.add("Brussels");
-			answers.add("Linz");
+			
+			answers.add(ans2);
+			answers.add(ans3);
+			answers.add(ans4);
+			answers.add(ans5);
 			// Assertions
 			assertNotNull(answers);
-			assertEquals("Interlaken", answers.get(0));
-			assertEquals("Paris", answers.get(1));
-			assertEquals("Amestardam", answers.get(2));
-			assertEquals("Brussels", answers.get(3));
-			assertEquals("Linz", answers.get(4));
+			assertEquals(ans1, answers.get(0));
+			assertEquals(ans2, answers.get(1));
+			assertEquals(ans3, answers.get(2));
+			assertEquals(ans4, answers.get(3));
+			assertEquals(ans5, answers.get(4));
 			assertEquals(5, answers.size());
 			assertNotEquals(-1, answers.size());
 			assertNotEquals(null, answers.size());
-			assertEquals(true, answers.contains("Interlaken"));
-			assertEquals(true, answers.contains("Paris"));
-			assertEquals(true, answers.contains("Amestardam"));
-			assertEquals(true, answers.contains("Brussels"));
-			assertEquals(true, answers.contains("Linz"));
+			assertEquals(true, answers.contains(ans1));
+			assertEquals(true, answers.contains(ans2));
+			assertEquals(true, answers.contains(ans3));
+			assertEquals(true, answers.contains(ans4));
+			assertEquals(true, answers.contains(ans5));
 			answers.clear();
 		} else {
 
@@ -201,27 +217,53 @@ public class QuestionAnswerServiceImplTest {
 	 */
 
 	@Test
-	public void testGetAnswers_success() {
-
+	public void testGetAnswers_success_two() {
+		String ans1 = "Maruthi Suzaki";
+		String ans2 = "Benz";
+		String ans3 = "BMW";
+		String ans4 = "LandsRover";
+		String ans5 = "Audi";
+		
+		String qq = "What is Your Favorite Car?";
+		if (ValidationUtil.validateAlpaCharLength(qq)) {
+			assertEquals(ValidationUtil.validateAlpaCharLength(qq), true);
+		} else {
+			assertEquals(ValidationUtil.validateAlpaCharLength(qq), false);
+		}
 		Question q = createQuestionEntity();
-		Mockito.when(repo.findByQuestion("What is Your Favorite Vacation Spot?")).thenReturn(Optional.ofNullable(q));
-		List<String> answers = service.getAnswers("What is Your Favorite Vacation Spot?");
+		q.setQuestion(qq);
+		Mockito.when(repo.save(q)).thenReturn(q);
+		Mockito.when(repo.findByQuestion(qq)).thenReturn(Optional.ofNullable(q));
+		service.addQuestion(qq, ans1);
+		List<String> answers = service.getAnswers(qq);
+		service.addQuestion(qq, ans1);
 		if (answers != null && !answers.isEmpty()) {
-			answers.add("Interlaken");
-			answers.add("Paris");
+			
+			answers.add(ans2);
+			answers.add(ans3);
+			answers.add(ans4);
+			answers.add(ans5);
+			// Assertions
 			assertNotNull(answers);
-			assertEquals(3, answers.size());
-			assertEquals(
-					"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\"",
-					answers.get(0));
-			assertEquals("Interlaken", answers.get(1));
-			assertEquals("Paris", answers.get(2));
+			assertEquals(ans1, answers.get(0));
+			assertEquals(ans2, answers.get(1));
+			assertEquals(ans3, answers.get(2));
+			assertEquals(ans4, answers.get(3));
+			assertEquals(ans5, answers.get(4));
+			assertEquals(5, answers.size());
+			assertNotEquals(-1, answers.size());
+			assertNotEquals(null, answers.size());
+			assertEquals(true, answers.contains(ans1));
+			assertEquals(true, answers.contains(ans2));
+			assertEquals(true, answers.contains(ans3));
+			assertEquals(true, answers.contains(ans4));
+			assertEquals(true, answers.contains(ans5));
+			assertEquals(false, answers.contains("Hundai"));
 			answers.clear();
 		} else {
 
 			System.out.println("Answer length is more than 256 characters for answer " + answers);
 		}
-
 	}
 
 	// assertEquals(true, q.getAnswers());

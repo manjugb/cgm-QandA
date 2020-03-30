@@ -1,8 +1,10 @@
 package com.cgm.qanda.util;
 
-import java.util.regex.Pattern;
 
-import com.cgm.qanda.dataobject.Question;
+
+
+import com.ibm.icu.impl.Assert;
+import com.mongodb.assertions.Assertions;
 
 /**
  * ValidationUtil.java - This class defines the validation of input as a  String,Validation of input and format
@@ -108,13 +110,17 @@ public class ValidationUtil {
 		return false;
 		
 	}
-	/*
-	public static Question validateLength(Question input) {
-		if (Question == null || Question.length() > 256) {
-			return false;
-		}
-		return true;
-	}*/
+	
+	public static boolean  validateAlpaCharLength(String input) {
+		if (input.matches("[A-Za-z]+?") && input.matches("^.{0,255}$") && input.contains("?")) {
+	      
+	      return true;
+		}else {
+		
+		return false;}
+		
+		
+	}
 	
 
 }
