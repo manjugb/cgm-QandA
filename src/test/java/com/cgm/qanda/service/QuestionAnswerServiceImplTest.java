@@ -12,14 +12,19 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.hibernate.AssertionFailure;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -80,12 +85,26 @@ public class QuestionAnswerServiceImplTest {
 	 * @param answers  with random data
 	 */
 
+	@ParameterizedTest
+	@MethodSource("stringProvider")
+	void testWithExplicitLocalMethodSource(String argument) {
+		assertNotNull(argument);
+	}
+
+	/*
+	 * static Stream<Arguments> stringIntAndListProvider() { return
+	 * Stream.of(arguments("apple", 1, Arrays.asList("a", "b")), arguments("lemon",
+	 * 2, Arrays.asList("x", "y")) ); }
+	 */
+
 	@Test
 	public void testaddQuestionTest_original() {
-		String ans1 = "answer";
-		String ans2 = "anwer2";
+
+		String ans1 = "answer1";
+		String ans2 = "answer2";
 		String ans3 = "answer3";
 		String qq = "Question?";
+
 		if (ValidationUtil.validateAlpaCharLength(qq) == true) {
 			assertEquals(ValidationUtil.validateAlpaCharLength(qq), true);
 			System.out.println("Question is a String with max 255 chars");
@@ -159,6 +178,7 @@ public class QuestionAnswerServiceImplTest {
 
 	@Test
 	public void testaddQuestionTest_success() {
+		// data
 		String ans1 = "Pizza";
 		String ans2 = "Spagatti";
 		String ans3 = "IceCream";
@@ -178,6 +198,7 @@ public class QuestionAnswerServiceImplTest {
 		service.addQuestion(qq, ans1);
 		List<String> answers = service.getAnswers(qq);
 		service.addQuestion(qq, ans1);
+		// answer assertions
 		if (answers != null && !answers.isEmpty()) {
 
 			answers.add(ans2);
@@ -206,6 +227,19 @@ public class QuestionAnswerServiceImplTest {
 		}
 
 	}
+
+	/*
+	 * @Test public void testGetAnswers_testaddQuestionTest_success() {
+	 * 
+	 * Question q = createQuestionEntity();
+	 * Mockito.when(repo.findByQuestion("What is Your Favorite Food?")).thenReturn(
+	 * Optional.ofNullable(q)); List<String> answers =
+	 * service.getAnswers("What is Your Favorite Food?"); //answers.add("answer2");
+	 * assertNotNull(answers); assertEquals(, answers.size()); // assertEquals(true,
+	 * q.getAnswers());
+	 * 
+	 * }
+	 */
 
 	/**
 	 * This test verifies the question and retrieves values user's question from the
@@ -373,7 +407,9 @@ public class QuestionAnswerServiceImplTest {
 			// assertions
 			assertNotNull(answers);
 			// assertEquals("kerala",answers.get(0));
-			assertEquals("\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\"", answers.get(0));
+			assertEquals(
+					"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\"",
+					answers.get(0));
 			assertEquals(ans2, answers.get(1));
 			assertEquals(true, answers.contains(""));
 			assertEquals(false, answers.contains("London"));
@@ -422,18 +458,21 @@ public class QuestionAnswerServiceImplTest {
 		if (answers != null && !answers.isEmpty()) {
 
 			answers.add(ans2);
-			
+
 			// assertions
 			assertNotNull(answers);
 			// assertEquals("Kerala", answers.get(0));
-			assertEquals("\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\"", answers.get(0));
+			assertEquals(
+					"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\"",
+					answers.get(0));
 			assertEquals("", answers.get(1));
 			assertEquals(2, answers.size());
 			assertNotEquals(-1, answers.size());
 			assertNotEquals(null, answers.size());
 			assertEquals(true, answers.contains(
 					"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\""));
-			assertEquals(true, answers.contains("\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\""));
+			assertEquals(true, answers.contains(
+					"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\""));
 			assertEquals(false, answers.contains("London"));
 			assertNotEquals(true, answers.contains("Bangalore"));
 			answers.clear();
@@ -524,10 +563,10 @@ public class QuestionAnswerServiceImplTest {
 		Mockito.when(repo.save(q)).thenReturn(q);
 		Mockito.when(repo.findByQuestion(qq)).thenReturn(Optional.ofNullable(q));
 		try {
-		service.addQuestion(qq, ans1);
-		}catch (DataIntegrityViolationException e) {
+			service.addQuestion(qq, ans1);
+		} catch (DataIntegrityViolationException e) {
 			System.out.print("DataIntegrityViolation Caught");
-			//System.out.println("Question is a String with max 255 chars");
+			// System.out.println("Question is a String with max 255 chars");
 
 		}
 		List<String> answers = service.getAnswers(qq);
@@ -536,7 +575,9 @@ public class QuestionAnswerServiceImplTest {
 			answers.add("");
 			// assertions
 			assertNotNull(answers);
-			assertEquals("\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\"", answers.get(0));
+			assertEquals(
+					"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\"",
+					answers.get(0));
 			assertEquals(ans2, answers.get(1));
 			assertEquals("", answers.get(2));
 			assertEquals(3, answers.size());
@@ -554,7 +595,8 @@ public class QuestionAnswerServiceImplTest {
 		}
 
 	}
-    //unique answers 
+
+	// unique answers
 	@Test
 	public void testaddQuestionTest_alpa() {
 		String ans1 = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready spring applications";
@@ -565,7 +607,7 @@ public class QuestionAnswerServiceImplTest {
 		} else {
 			assertEquals(ValidationUtil.validateAlpaCharLength(qq), false);
 		}
-		
+
 		Question q = createQuestionEntity();
 		q.setQuestion(qq);
 		Mockito.when(repo.save(q)).thenReturn(q);
@@ -591,7 +633,8 @@ public class QuestionAnswerServiceImplTest {
 		} else {
 			System.out.println("Question length is more than 256 characters for answer " + answers);
 
-			//System.out.println("Answer length is more than 256 characters for answer " + answers);
+			// System.out.println("Answer length is more than 256 characters for answer " +
+			// answers);
 		}
 
 	}
