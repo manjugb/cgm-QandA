@@ -26,6 +26,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -372,14 +373,14 @@ public class QuestionAnswerServiceImplTest {
 			// assertions
 			assertNotNull(answers);
 			// assertEquals("kerala",answers.get(0));
-			assertEquals(ans1, answers.get(0));
+			assertEquals("\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\"", answers.get(0));
 			assertEquals(ans2, answers.get(1));
 			assertEquals(true, answers.contains(""));
 			assertEquals(false, answers.contains("London"));
-			assertEquals(3, answers.size()); // How come this size would be i was given any value but all "" gives 0
+			assertEquals(2, answers.size()); // How come this size would be i was given any value but all "" gives 0
 			assertNotEquals(-1, answers.size());
 			assertNotEquals(null, answers.size());
-			assertEquals(false, answers.contains(
+			assertEquals(true, answers.contains(
 					"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\""));
 			assertEquals(false, answers.contains("Paris"));
 			answers.clear();
@@ -404,27 +405,35 @@ public class QuestionAnswerServiceImplTest {
 
 	@Test
 	public void testaddQuestionTest_emptyqString_oneanswer() {
+		String ans1 = "Kerala";
+		String ans2 = "";
+		String qq = "?";
+		if (ValidationUtil.validateAlpaCharLength(qq)) {
+			assertEquals(ValidationUtil.validateAlpaCharLength(qq), true);
+		} else {
+			assertEquals(ValidationUtil.validateAlpaCharLength(qq), false);
+		}
 		Question q = createQuestionEntity();
-		q.setQuestion("");
+		q.setQuestion(qq);
 		Mockito.when(repo.save(q)).thenReturn(q);
-		Mockito.when(repo.findByQuestion("")).thenReturn(Optional.ofNullable(q));
-		service.addQuestion("", "Kerala");
+		Mockito.when(repo.findByQuestion(qq)).thenReturn(Optional.ofNullable(q));
+		service.addQuestion(qq, ans1);
 		List<String> answers = service.getAnswers("");
 		if (answers != null && !answers.isEmpty()) {
 
-			answers.add("");
-			answers.add("");
+			answers.add(ans2);
+			
 			// assertions
 			assertNotNull(answers);
 			// assertEquals("Kerala", answers.get(0));
+			assertEquals("\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\"", answers.get(0));
 			assertEquals("", answers.get(1));
-			assertEquals("", answers.get(2));
-			assertEquals(3, answers.size());
+			assertEquals(2, answers.size());
 			assertNotEquals(-1, answers.size());
 			assertNotEquals(null, answers.size());
-			assertEquals(false, answers.contains(
+			assertEquals(true, answers.contains(
 					"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\""));
-			assertEquals(false, answers.contains("Paris"));
+			assertEquals(true, answers.contains("\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\""));
 			assertEquals(false, answers.contains("London"));
 			assertNotEquals(true, answers.contains("Bangalore"));
 			answers.clear();
@@ -448,29 +457,37 @@ public class QuestionAnswerServiceImplTest {
 	 */
 
 	@Test
-	public void testaddQuestionTest_emptyString_two_answers() {
+	public void testaddQuestionTest_input_255chars() {
+		String ans1 = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready spring applications";
+		String ans2 = "Spring";
+		String qq = "What are most economical Cities?";
+		if (ValidationUtil.validateAlpaCharLength(qq)) {
+			assertEquals(ValidationUtil.validateAlpaCharLength(qq), true);
+		} else {
+			assertEquals(ValidationUtil.validateAlpaCharLength(qq), false);
+		}
 		Question q = createQuestionEntity();
-		q.setQuestion("");
+		q.setQuestion(qq);
 		Mockito.when(repo.save(q)).thenReturn(q);
-		Mockito.when(repo.findByQuestion("")).thenReturn(Optional.ofNullable(q));
-		service.addQuestion("", "");
-		List<String> answers = service.getAnswers("");
+		Mockito.when(repo.findByQuestion(qq)).thenReturn(Optional.ofNullable(q));
+		service.addQuestion(qq, ans1);
+		List<String> answers = service.getAnswers(qq);
 		if (answers != null && !answers.isEmpty()) {
 
-			answers.add("Paris");
+			answers.add(ans2);
 			answers.add("London");
 			// assertions
 			assertNotNull(answers);
-			// assertEquals("", answers.get(0));
-			assertEquals("Paris", answers.get(1));
+			assertEquals(ans1, answers.get(0));
+			assertEquals("Spring", answers.get(1));
 			assertEquals("London", answers.get(2));
 			assertEquals(3, answers.size());
 			// assertNotEquals(-1, answers.size());
 			assertNotEquals(null, answers.size());
 			assertEquals(false, answers.contains(
 					"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\""));
-			assertEquals(true, answers.contains("Paris"));
-			assertEquals(true, answers.contains("London"));
+			assertEquals(false, answers.contains("Paris"));
+			assertEquals(true, answers.contains(ans2));
 			assertNotEquals(true, answers.contains("Bangalore"));
 			answers.clear();
 		} else {
@@ -493,28 +510,42 @@ public class QuestionAnswerServiceImplTest {
 	 */
 
 	@Test
-	public void testaddQuestionTest_emptyString_two_answer() {
+	public void testaddQuestionTest_q255_ans255() {
+		String ans1 = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready spring applications";
+		String ans2 = "Spring";
+		String qq = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready sprinplications.sdfddsfsfjlksjflsjfsxdsdfsdfssdfdsdfdfdfddfdfd sfsdflsdfsldsfsksljfssf?";
+		if (ValidationUtil.validateAlpaCharLength(qq)) {
+			assertEquals(ValidationUtil.validateAlpaCharLength(qq), true);
+		} else {
+			assertEquals(ValidationUtil.validateAlpaCharLength(qq), false);
+		}
 		Question q = createQuestionEntity();
-		q.setQuestion("");
+		q.setQuestion(qq);
 		Mockito.when(repo.save(q)).thenReturn(q);
-		Mockito.when(repo.findByQuestion("")).thenReturn(Optional.ofNullable(q));
-		service.addQuestion("", "trim");
-		List<String> answers = service.getAnswers("");
+		Mockito.when(repo.findByQuestion(qq)).thenReturn(Optional.ofNullable(q));
+		try {
+		service.addQuestion(qq, ans1);
+		}catch (DataIntegrityViolationException e) {
+			System.out.print("DataIntegrityViolation Caught");
+			//System.out.println("Question is a String with max 255 chars");
+
+		}
+		List<String> answers = service.getAnswers(qq);
 		if (answers != null && !answers.isEmpty()) {
-			answers.add("Paris");
+			answers.add(ans2);
 			answers.add("");
 			// assertions
 			assertNotNull(answers);
-			assertEquals("trim", answers.get(0));
-			assertEquals("Paris", answers.get(1));
+			assertEquals("\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\"", answers.get(0));
+			assertEquals(ans2, answers.get(1));
 			assertEquals("", answers.get(2));
 			assertEquals(3, answers.size());
 			assertNotEquals(-1, answers.size());
 			assertNotEquals(null, answers.size());
-			assertEquals(false, answers.contains(
+			assertEquals(true, answers.contains(
 					"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\""));
-			assertEquals(true, answers.contains("Paris"));
-			assertEquals(true, answers.contains("trim"));
+			assertEquals(true, answers.contains("Spring"));
+			assertEquals(false, answers.contains("trim"));
 			assertNotEquals(true, answers.contains("Bangalore"));
 			answers.clear();
 		} else {
@@ -523,36 +554,44 @@ public class QuestionAnswerServiceImplTest {
 		}
 
 	}
-
+    //unique answers 
 	@Test
 	public void testaddQuestionTest_alpa() {
+		String ans1 = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready spring applications";
+		String ans2 = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready spring applications";
+		String qq = "Spring Boot is an open source Java-based framework used to create a micro ServiceIt is developed by Pivotal Team and is used to build stand-alone?";
+		if (ValidationUtil.validateAlpaCharLength(qq)) {
+			assertEquals(ValidationUtil.validateAlpaCharLength(qq), true);
+		} else {
+			assertEquals(ValidationUtil.validateAlpaCharLength(qq), false);
+		}
+		
 		Question q = createQuestionEntity();
-		q.setQuestion("How are you");
+		q.setQuestion(qq);
 		Mockito.when(repo.save(q)).thenReturn(q);
-		Mockito.when(repo.findByQuestion("How are you")).thenReturn(Optional.ofNullable(q));
-		service.addQuestion("How are you", "fine");
-		List<String> answers = service.getAnswers("How are you");
+		Mockito.when(repo.findByQuestion(qq)).thenReturn(Optional.ofNullable(q));
+		service.addQuestion(qq, ans1);
+		List<String> answers = service.getAnswers(qq);
 		if (answers != null && !answers.isEmpty()) {
-			answers.add("thank");
-			answers.add("you");
+			answers.add(ans1);
+			answers.add(ans2);
 			// assertions
 			assertNotNull(answers);
-			assertEquals("fine", answers.get(0));
-			assertEquals("thank", answers.get(1));
-			assertEquals("you", answers.get(2));
+			assertEquals(ans1, answers.get(0));
+			assertEquals(ans2, answers.get(1));
 			assertEquals(3, answers.size());
 			assertNotEquals(-1, answers.size());
 			assertNotEquals(null, answers.size());
 			assertEquals(false, answers.contains(
 					"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\""));
 			assertEquals(false, answers.contains("Paris"));
-			assertEquals(true, answers.contains("fine"));
-			assertEquals(true, answers.contains("you"));
+			assertEquals(true, answers.contains(ans1));
+			assertEquals(true, answers.contains(ans2));
 			answers.clear();
 		} else {
 			System.out.println("Question length is more than 256 characters for answer " + answers);
 
-			System.out.println("Answer length is more than 256 characters for answer " + answers);
+			//System.out.println("Answer length is more than 256 characters for answer " + answers);
 		}
 
 	}
