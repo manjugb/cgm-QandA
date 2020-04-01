@@ -1,11 +1,11 @@
 # QuestionAndAnswer
 
 # Code src/main/java
-  -added DataAccess hanlding class(IncorrectResultSizeDataAccessException) this would handle the exception from negative cases like with    invalid data while submit querry into into database using flush and saveflush
-  -added the comments what the class and methods do, this would helpul to new people to understand the sin betterway.
+  -Added DataAccess hanlding class(IncorrectResultSizeDataAccessException) this would handle the exception from negative cases like   with    invalid data while submit querry into into database using flush and saveflush
+  -Added the comments what the class and methods do, this would helpul to new people to understand the sin betterway.
 # tests src/test/java
-  -added the comments what the class and methods do, this would helpul to new people to understand the in betterway.
-  -modified some of the existing test methods and code
+  -Added the comments what the class and methods do, this would helpul to new people to understand the in betterway.
+  -Modified some of the existing test methods and code
 
 # Features covered with tests
   
@@ -41,7 +41,7 @@ Note:Make sure M2E Intalled in Eclipse,but this should come while installed ecli
 
 # Jenkins Steps Build:
 
-1.Click on New job 2.Write Desc and choose maven project(note:maven project is not availble, try install from manage jenkins -> Manage Plugins) 3.Go to build option enter root path with pom.xml 4.save and run build
+1.Click on New job 2.Write Desc and choose maven project(note:if maven project is not availble, try install from manage jenkins -> Manage Plugins) 3.Go to build option enter root path with pom.xml 4.save and run build
 
 
    
