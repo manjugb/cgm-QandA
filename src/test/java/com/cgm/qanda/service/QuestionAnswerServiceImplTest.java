@@ -19,7 +19,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import org.h2.jdbc.JdbcSQLException;
 import org.hibernate.AssertionFailure;
+import org.hibernate.exception.JDBCConnectionException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -85,11 +87,12 @@ public class QuestionAnswerServiceImplTest {
 	 * @param answers  with random data
 	 */
 
-	/*@ParameterizedTest
-	@MethodSource("stringProvider")
-	void testWithExplicitLocalMethodSource(String argument) {
-		assertNotNull(argument);
-	}*/
+	/*
+	 * @ParameterizedTest
+	 * 
+	 * @MethodSource("stringProvider") void testWithExplicitLocalMethodSource(String
+	 * argument) { assertNotNull(argument); }
+	 */
 
 	/*
 	 * static Stream<Arguments> stringIntAndListProvider() { return
@@ -128,7 +131,7 @@ public class QuestionAnswerServiceImplTest {
 			answers.add(ans3);
 
 			assertNotNull(answers);
-			//assertEquals(ans1, answers.get(0));
+			// assertEquals(ans1, answers.get(0));
 			assertEquals(ans2, answers.get(1));
 			assertEquals(ans3, answers.get(2));
 			answers.clear();
@@ -150,7 +153,7 @@ public class QuestionAnswerServiceImplTest {
 	 * @param question
 	 * @param answers  with random data
 	 */
-    //valid test
+	// valid test
 	@Test
 	public void testGetAnswers_original() {
 
@@ -175,7 +178,7 @@ public class QuestionAnswerServiceImplTest {
 	 * @param question with correct data
 	 * @param answers  with valid data
 	 */
-  //valid test
+	// valid test
 	@Test
 	public void testaddQuestionTest_success() {
 		// data
@@ -186,6 +189,7 @@ public class QuestionAnswerServiceImplTest {
 		String ans5 = "IceCream";
 
 		String qq = "What is Your Favorite Food?";
+
 		if (ValidationUtil.validateAlpaCharLength(qq) == true) {
 			assertEquals(ValidationUtil.validateAlpaCharLength(qq), true);
 		} else {
@@ -309,8 +313,8 @@ public class QuestionAnswerServiceImplTest {
 	 * injected data and verify valid error message user's question from the input
 	 * arguments.
 	 *
-	 * Precondition: 'input' should contain at least one element, the question one mandatory answer
-	 * assert the data with injected values
+	 * Precondition: 'input' should contain at least one element, the question one
+	 * mandatory answer assert the data with injected values
 	 *
 	 * @param question with null value
 	 * @param answers  with null value
@@ -497,7 +501,7 @@ public class QuestionAnswerServiceImplTest {
 
 	@Test
 	public void testaddQuestionTest_input_255chars() {
-		String ans1 = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready spring applications";
+		String ans1 = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready spring application";
 		String ans2 = "Spring";
 		String qq = "What are most economical Cities?";
 		if (ValidationUtil.validateAlpaCharLength(qq)) {
@@ -549,49 +553,51 @@ public class QuestionAnswerServiceImplTest {
 	 */
 
 	@Test
-	public void testaddQuestionTest_q255_ans255() throws SQLException {
+	public void testaddQuestionTest_q255_ans255() throws JdbcSQLException {
 		String ans1 = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready spring application";
 		String ans2 = "Spring";
-		String qq = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready sprinplications.sdfddsfsfjlksjflsjfsxdsdfsdfssdfdsdfdfdfddfdfd sfsdflsdfsldsfsksljfssf?";
-		if (ValidationUtil.validateAlpaCharLength(qq)) {
-			assertEquals(ValidationUtil.validateAlpaCharLength(qq), true);
-		} else {
-			assertEquals(ValidationUtil.validateAlpaCharLength(qq), false);
-		}
-		Question q = createQuestionEntity();
-		q.setQuestion(qq);
-		Mockito.when(repo.save(q)).thenReturn(q);
-		Mockito.when(repo.findByQuestion(qq)).thenReturn(Optional.ofNullable(q));
+		String qq = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready sprinplications?";
 		try {
+			if (ValidationUtil.validateAlpaCharLength(qq)) {
+				assertEquals(ValidationUtil.validateAlpaCharLength(qq), true);
+			} else {
+				assertEquals(ValidationUtil.validateAlpaCharLength(qq), false);
+			}
+			Question q = createQuestionEntity();
+			q.setQuestion(qq);
+			Mockito.when(repo.save(q)).thenReturn(q);
+			Mockito.when(repo.findByQuestion(qq)).thenReturn(Optional.ofNullable(q));
+
 			service.addQuestion(qq, ans1);
-		} catch (DataIntegrityViolationException e) {
-			System.out.print("DataIntegrityViolation Caught");
+
 			// System.out.println("Question is a String with max 255 chars");
 
-		}
-		List<String> answers = service.getAnswers(qq);
-		if (answers != null && !answers.isEmpty()) {
-			answers.add(ans2);
-			answers.add("");
-			// assertions
-			assertNotNull(answers);
-			assertEquals(
-					"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\"",
-					answers.get(0));
-			assertEquals(ans2, answers.get(1));
-			assertEquals("", answers.get(2));
-			assertEquals(3, answers.size());
-			assertNotEquals(-1, answers.size());
-			assertNotEquals(null, answers.size());
-			assertEquals(true, answers.contains(
-					"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\""));
-			assertEquals(true, answers.contains("Spring"));
-			assertEquals(false, answers.contains("trim"));
-			assertNotEquals(true, answers.contains("Bangalore"));
-			answers.clear();
-		} else {
+			List<String> answers = service.getAnswers(qq);
+			if (answers != null && !answers.isEmpty()) {
+				answers.add(ans2);
+				answers.add("");
+				// assertions
+				assertNotNull(answers);
+				//assertEquals("\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\"",answers.get(0));
+				assertEquals(ans1, answers.get(0));
+				assertEquals(ans2, answers.get(1));
+				assertEquals("", answers.get(2));
+				assertEquals(3, answers.size());
+				assertNotEquals(-1, answers.size());
+				assertNotEquals(null, answers.size());
+				assertEquals(false, answers.contains(
+						"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\""));
+				assertEquals(false,answers.contains("Spring Boot is an open source Java-based framework used to create a micro Service"));
+				assertEquals(true, answers.contains("Spring"));
+				assertEquals(false, answers.contains("trim"));
+				assertNotEquals(true, answers.contains("Bangalore"));
+				answers.clear();
+			} else {
 
-			System.out.println("Answer length is more than 256 characters for answer " + answers);
+				System.out.println("Answer length is more than 256 characters for answer " + answers);
+			}
+		} catch (DataIntegrityViolationException e) {
+			System.out.print("DataIntegrityViolation Caught");
 		}
 
 	}
@@ -599,8 +605,8 @@ public class QuestionAnswerServiceImplTest {
 	// unique answers
 	@Test
 	public void testaddQuestionTest_alpa() {
-		String ans1 = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready spring applications";
-		String ans2 = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready spring applications";
+		String ans1 = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready spring application";
+		String ans2 = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready spring application";
 		String qq = "Spring Boot is an open source Java-based framework used to create a micro ServiceIt is developed by Pivotal Team and is used to build stand-alone?";
 		if (ValidationUtil.validateAlpaCharLength(qq)) {
 			assertEquals(ValidationUtil.validateAlpaCharLength(qq), true);
@@ -709,26 +715,21 @@ public class QuestionAnswerServiceImplTest {
 		answers.clear();
 
 	}
-	
-	
-	
-	/*@Test
-	public void testGetAnswers_one() {
-		String qq = "What is Your Favorite Color?";
-		if (ValidationUtil.validateAlpaCharLength(qq)) {
-			assertEquals(ValidationUtil.validateAlpaCharLength(qq), true);
-		} else {
-			assertEquals(ValidationUtil.validateAlpaCharLength(qq), false);
-		}
-		Question q = createQuestionEntity();
-		Mockito.when(repo.findByQuestion(qq)).thenReturn(Optional.ofNullable(q));
-		List<String> answers = service.getAnswers(qq);
-		//answers.add("Red");
-		assertNotNull(answers);
-		assertEquals(1, answers.size());
-		// assertEquals(true, q.getAnswers());
 
-	}*/
+	/*
+	 * @Test public void testGetAnswers_one() { String qq =
+	 * "What is Your Favorite Color?"; if
+	 * (ValidationUtil.validateAlpaCharLength(qq)) {
+	 * assertEquals(ValidationUtil.validateAlpaCharLength(qq), true); } else {
+	 * assertEquals(ValidationUtil.validateAlpaCharLength(qq), false); } Question q
+	 * = createQuestionEntity();
+	 * Mockito.when(repo.findByQuestion(qq)).thenReturn(Optional.ofNullable(q));
+	 * List<String> answers = service.getAnswers(qq); //answers.add("Red");
+	 * assertNotNull(answers); assertEquals(1, answers.size()); //
+	 * assertEquals(true, q.getAnswers());
+	 * 
+	 * }
+	 */
 	@Test
 	public void testGetAnswers_one() {
 
@@ -744,7 +745,6 @@ public class QuestionAnswerServiceImplTest {
 
 	}
 
-	
 	@Test
 	public void testGetAnswers_two() {
 
@@ -757,8 +757,7 @@ public class QuestionAnswerServiceImplTest {
 		// assertEquals(true, q.getAnswers());
 
 	}
-	
-	
+
 	@Test
 	public void testGetAnswers_three() {
 
@@ -770,11 +769,11 @@ public class QuestionAnswerServiceImplTest {
 		assertEquals(2, answers.size());
 		// assertEquals(true, q.getAnswers());
 
-	}	
-	
+	}
+
 	@Test
 	public void testGetAnswers_charlengthlessthan250() {
-        String qq = "This can be achieved by writing test scripts or using any automation testing tool. Test automation is used to automate repetitive tasks and other testing tasks which are difficult to perform manually?";
+		String qq = "This can be achieved by writing test scripts or using any automation testing tool. Test automation is used to automate repetitive tasks and other testing tasks which are difficult to perform manually?";
 		Question q = createQuestionEntity();
 		Mockito.when(repo.findByQuestion("")).thenReturn(Optional.ofNullable(q));
 		List<String> answers = service.getAnswers(qq);
@@ -783,8 +782,8 @@ public class QuestionAnswerServiceImplTest {
 		assertEquals(2, answers.size());
 		// assertEquals(true, q.getAnswers());
 
-	}	
-	
+	}
+
 	@Test
 	public void testGetAnswers_success_savflush() {
 
@@ -796,10 +795,53 @@ public class QuestionAnswerServiceImplTest {
 		answers.add("figs");
 		assertNotNull(answers);
 		assertEquals(4, answers.size());
-		assertEquals("\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\"",answers.get(0));
+		assertEquals(
+				"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\"",
+				answers.get(0));
 		// assertEquals(true, q.getAnswers());
 
 	}
-	
-	
+
+	@Test
+	public void testGetAnswers_success_savflush_255char() {
+
+		Question q = createQuestionEntity();
+		Mockito.when(repo.findByQuestion(
+				"Automation testing is a Software testing technique to test and compare the actual outcome with the expected outcome. This can be achieved by writing test scripts or using any automation testing tool. Test automation is used to automate repetitive tasks and other testing tasks which are difficult to perform manually?"))
+				.thenReturn(Optional.ofNullable(q));
+		List<String> answers = service.getAnswers(
+				"Automation testing is a Software testing technique to test and compare the actual outcome with the expected outcome. This can be achieved by writing test scripts or using any automation testing tool. Test automation is used to automate repetitive tasks and other testing tasks which are difficult to perform manually?");
+		answers.add("Unit Teting");
+		answers.add("Integration Testing");
+		answers.add("User Acceptance Testing");
+		assertNotNull(answers);
+		assertEquals(4, answers.size());
+		assertEquals(
+				"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\"",
+				answers.get(0));
+		// assertEquals(true, q.getAnswers());
+
+	}
+
+	@Test
+	public void testGetAnswers_success_savflush_255char_qna() {
+
+		Question q = createQuestionEntity();
+		Mockito.when(repo.findByQuestion(
+				"Sfjlksjflsjflsjlskjfklsdjlfjskjfslkjflskdjfksdfjsdkfjskjfsdlkfjsdlkfdslsdfsdkfjsdklfjsdlkjflksdjfsdlkfjsdlfjlksdjfsldflkdsfjdsjslkjfskfjlsdfll?"))
+				.thenReturn(Optional.ofNullable(q));
+		List<String> answers = service.getAnswers(
+				"Sfjlksjflsjflsjlskjfklsdjlfjskjfslkjflskdjfksdfjsdkfjskjfsdlkfjsdlkfdslsdfsdkfjsdklfjsdlkjflksdjfsdlkfjsdlfjlksdjfsldflkdsfjdsjslkjfskfjlsdfll?");
+		answers.add("ddfgdfgdfgdgfgdfgdfgdfgfdgfgfgdfgddgdfgdfgdgdfgfdgfgfddfgdfgfdgfddfgfdgfggfdgfdgdfgdfgfdgfdgfdgdfgdfgdfgdfgfgffdgffdgfgdgdfgdfgfdgfdggfgfgfgdfgdgdgdfgfgfdgdgdfgdf");
+		answers.add("Integration Testing");
+		answers.add("User Acceptance Testing");
+		assertNotNull(answers);
+		assertEquals(4, answers.size());
+		assertEquals(
+				"\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\"",
+				answers.get(0));
+		// assertEquals(true, q.getAnswers());
+
+	}
+
 }
