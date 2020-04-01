@@ -3,8 +3,6 @@ package com.cgm.qanda.util;
 
 
 
-import com.ibm.icu.impl.Assert;
-import com.mongodb.assertions.Assertions;
 
 /**
  * ValidationUtil.java - This class defines the validation of input as a  String,Validation of input and format

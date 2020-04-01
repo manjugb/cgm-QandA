@@ -4,7 +4,6 @@ package com.cgm.qanda.service;
  *  with different combination of data
  * @author Manjunath Golla Bala
  * @version 1.0
- * 
  */
 
 import static org.junit.Assert.assertEquals;
@@ -12,6 +11,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -96,7 +96,7 @@ public class QuestionAnswerServiceImplTest {
 	 * Stream.of(arguments("apple", 1, Arrays.asList("a", "b")), arguments("lemon",
 	 * 2, Arrays.asList("x", "y")) ); }
 	 */
-
+//valid test
 	@Test
 	public void testaddQuestionTest_original() {
 
@@ -108,7 +108,7 @@ public class QuestionAnswerServiceImplTest {
 		if (ValidationUtil.validateAlpaCharLength(qq) == true) {
 			assertEquals(ValidationUtil.validateAlpaCharLength(qq), true);
 			System.out.println("Question is a String with max 255 chars");
-		} else if (ValidationUtil.validateAlpaCharLength(qq) == false) {
+		} else {
 			assertEquals(ValidationUtil.validateAlpaCharLength(qq), false);
 			System.out.println("Question is a String not with max 255 chars");
 
@@ -150,7 +150,7 @@ public class QuestionAnswerServiceImplTest {
 	 * @param question
 	 * @param answers  with random data
 	 */
-
+    //valid test
 	@Test
 	public void testGetAnswers_original() {
 
@@ -175,7 +175,7 @@ public class QuestionAnswerServiceImplTest {
 	 * @param question with correct data
 	 * @param answers  with valid data
 	 */
-
+  //valid test
 	@Test
 	public void testaddQuestionTest_success() {
 		// data
@@ -186,7 +186,7 @@ public class QuestionAnswerServiceImplTest {
 		String ans5 = "IceCream";
 
 		String qq = "What is Your Favorite Food?";
-		if (ValidationUtil.validateAlpaCharLength(qq)) {
+		if (ValidationUtil.validateAlpaCharLength(qq) == true) {
 			assertEquals(ValidationUtil.validateAlpaCharLength(qq), true);
 		} else {
 			assertEquals(ValidationUtil.validateAlpaCharLength(qq), false);
@@ -309,7 +309,7 @@ public class QuestionAnswerServiceImplTest {
 	 * injected data and verify valid error message user's question from the input
 	 * arguments.
 	 *
-	 * Precondition: 'input' should contain at least one element, the question.
+	 * Precondition: 'input' should contain at least one element, the question one mandatory answer
 	 * assert the data with injected values
 	 *
 	 * @param question with null value
@@ -549,8 +549,8 @@ public class QuestionAnswerServiceImplTest {
 	 */
 
 	@Test
-	public void testaddQuestionTest_q255_ans255() {
-		String ans1 = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready spring applications";
+	public void testaddQuestionTest_q255_ans255() throws SQLException {
+		String ans1 = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready spring application";
 		String ans2 = "Spring";
 		String qq = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready sprinplications.sdfddsfsfjlksjflsjfsxdsdfsdfssdfdsdfdfdfddfdfd sfsdflsdfsldsfsksljfssf?";
 		if (ValidationUtil.validateAlpaCharLength(qq)) {
@@ -737,7 +737,7 @@ public class QuestionAnswerServiceImplTest {
 		List<String> answers = service.getAnswers("What is Your Favorite Color?");
 		answers.add("Red");
 		answers.add("Green");
-		answers.add("");
+		answers.add("Gray");
 		assertNotNull(answers);
 		assertEquals(4, answers.size());
 		// assertEquals(true, q.getAnswers());
@@ -784,4 +784,22 @@ public class QuestionAnswerServiceImplTest {
 		// assertEquals(true, q.getAnswers());
 
 	}	
+	
+	@Test
+	public void testGetAnswers_success_savflush() {
+
+		Question q = createQuestionEntity();
+		Mockito.when(repo.findByQuestion("What is Your Favorite Fruites?")).thenReturn(Optional.ofNullable(q));
+		List<String> answers = service.getAnswers("What is Your Favorite Fruites?");
+		answers.add("Grape");
+		answers.add("Pineapple");
+		answers.add("figs");
+		assertNotNull(answers);
+		assertEquals(4, answers.size());
+		assertEquals("\"the answer to life, universe and everything is 42\" according to\"The hitchhikers guide to the Galaxy\"",answers.get(0));
+		// assertEquals(true, q.getAnswers());
+
+	}
+	
+	
 }

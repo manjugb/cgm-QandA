@@ -10,6 +10,7 @@ package com.cgm.qanda.dataaccessobject;
 
 import org.springframework.dao.DataRetrievalFailureException;
 
+@SuppressWarnings("serial")
 public class IncorrectResultSizeDataAccessException extends DataRetrievalFailureException {
 
 	private int expectedSize;

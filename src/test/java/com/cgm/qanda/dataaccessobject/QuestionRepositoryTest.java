@@ -1,4 +1,10 @@
 package com.cgm.qanda.dataaccessobject;
+/**
+ * TestValidationUtil.java - This class defines the validation of question as a  String,Validation of input and format with passing positive and negative values
+ * @features flush and saveflush
+ * @author Manjunath Golla Bala
+ * @version 1.0
+ */
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -8,8 +14,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 
-import org.apache.commons.codec.language.bm.Lang;
-import org.apache.derby.tools.sysinfo;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +79,7 @@ public class QuestionRepositoryTest {
 	@Test
 	public void testSave_one() {
 		String que = "What is Your Favorite Color?";
-		if (ValidationUtil.validateAlpaCharLength(que)) {
+		if (ValidationUtil.validateAlpaCharLength(que) == true) {
 			assertEquals(ValidationUtil.validateAlpaCharLength(que), true);
 		} else {
 			assertEquals(ValidationUtil.validateAlpaCharLength(que), false);
@@ -137,7 +142,7 @@ public class QuestionRepositoryTest {
 	public void testSave_two_que_ans_empty() {
 		String que = "";
 
-		if (ValidationUtil.validateAlpaCharLength(que)) {
+		if (ValidationUtil.validateAlpaCharLength(que) == true) {
 			assertEquals(ValidationUtil.validateAlpaCharLength(que), true);
 		} else {
 			assertEquals(ValidationUtil.validateAlpaCharLength(que), false);
@@ -156,11 +161,11 @@ public class QuestionRepositoryTest {
 		repository.flush();
 
 	}
-	
-	
+
 	private Question createUserEntity_ques_lessthan255() {
 		Question question = new Question();
-		question.setQuestion("This can be achieved by writing test scripts or using any automation testing tool. Test automation is used to automate repetitive tasks and other testing tasks which are difficult to perform manually?");
+		question.setQuestion(
+				"This can be achieved by writing test scripts or using any automation testing tool. Test automation is used to automate repetitive tasks and other testing tasks which are difficult to perform manually?");
 		Answer answer = new Answer();
 		answer.setAnswer("Testing");
 
@@ -184,14 +189,48 @@ public class QuestionRepositoryTest {
 			Question question = createUserEntity_ques_lessthan255();
 			repository.save(question);
 			Optional<Question> q = repository.findByQuestion(que);
-			
-				Question qq = q.get();
-				assertEquals(que, qq.getQuestion());
-			
-			//assertEquals(que, qq.getQuestion());
+
+			Question qq = q.get();
+			assertEquals(que, qq.getQuestion());
+
+			// assertEquals(que, qq.getQuestion());
 			repository.flush();
 
 		}
 
 	}
+
+	private Question createUserEntity_save_flush() {
+		Question question = new Question();
+		question.setQuestion("What is Your Favorite Fruites?");
+		Answer answer = new Answer();
+		answer.setAnswer("Grape");
+		answer.setAnswer("Pineapple");
+
+		Set<Answer> set = new HashSet<>();
+		set.add(answer);
+		return question;
+	}
+
+	@Test
+	public void testSave_savflush() {
+		String que = "What is Your Favorite Fruites?";
+		if (ValidationUtil.validateAlpaCharLength(que)) {
+			assertEquals(ValidationUtil.validateAlpaCharLength(que), true);
+		} else {
+			assertEquals(ValidationUtil.validateAlpaCharLength(que), false);
+		}
+		Question question = createUserEntity_save_flush();
+		repository.save(question);
+		Optional<Question> q = repository.findByQuestion(que);
+		Question qq = q.get();
+		assertEquals(que, qq.getQuestion());
+		repository.saveAndFlush(question);
+	}
+	
+	
+	
+	
+	
+	
 }
