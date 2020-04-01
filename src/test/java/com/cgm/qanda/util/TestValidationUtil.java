@@ -22,9 +22,9 @@ import com.cgm.qanda.QnAApplication;
 //@RunWith(Parameterized.class)
 //@RunWith(JUnitParamsRunner.class)
 
-// @ActiveProfiles("test")
+ @ActiveProfiles("test")
 
-//@ContextConfiguration(classes = QnAApplication.class, initializers = ConfigFileApplicationContextInitializer.class)
+@ContextConfiguration(classes = QnAApplication.class, initializers = ConfigFileApplicationContextInitializer.class)
 
 public class TestValidationUtil {
 

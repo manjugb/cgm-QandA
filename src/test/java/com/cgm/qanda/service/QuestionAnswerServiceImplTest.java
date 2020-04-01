@@ -46,7 +46,7 @@ import com.cgm.qanda.util.ValidationUtil;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("test")
 @ContextConfiguration(classes = QnAApplication.class, initializers = ConfigFileApplicationContextInitializer.class)
-@SpringBootTest
+//@SpringBootTest
 public class QuestionAnswerServiceImplTest {
 
 	@Autowired
@@ -736,10 +736,52 @@ public class QuestionAnswerServiceImplTest {
 		Mockito.when(repo.findByQuestion("What is Your Favorite Color?")).thenReturn(Optional.ofNullable(q));
 		List<String> answers = service.getAnswers("What is Your Favorite Color?");
 		answers.add("Red");
-		answers.add("Red");
+		answers.add("Green");
+		answers.add("");
+		assertNotNull(answers);
+		assertEquals(4, answers.size());
+		// assertEquals(true, q.getAnswers());
+
+	}
+
+	
+	@Test
+	public void testGetAnswers_two() {
+
+		Question q = createQuestionEntity();
+		Mockito.when(repo.findByQuestion("What is Your Favorite Reciep?")).thenReturn(Optional.ofNullable(q));
+		List<String> answers = service.getAnswers("What is Your Favorite Reciep?");
+		answers.add("");
 		assertNotNull(answers);
 		assertEquals(2, answers.size());
 		// assertEquals(true, q.getAnswers());
 
 	}
+	
+	
+	@Test
+	public void testGetAnswers_three() {
+
+		Question q = createQuestionEntity();
+		Mockito.when(repo.findByQuestion("")).thenReturn(Optional.ofNullable(q));
+		List<String> answers = service.getAnswers("");
+		answers.add("");
+		assertNotNull(answers);
+		assertEquals(2, answers.size());
+		// assertEquals(true, q.getAnswers());
+
+	}	
+	
+	@Test
+	public void testGetAnswers_charlengthlessthan250() {
+        String qq = "This can be achieved by writing test scripts or using any automation testing tool. Test automation is used to automate repetitive tasks and other testing tasks which are difficult to perform manually?";
+		Question q = createQuestionEntity();
+		Mockito.when(repo.findByQuestion("")).thenReturn(Optional.ofNullable(q));
+		List<String> answers = service.getAnswers(qq);
+		answers.add("Testing");
+		assertNotNull(answers);
+		assertEquals(2, answers.size());
+		// assertEquals(true, q.getAnswers());
+
+	}	
 }
