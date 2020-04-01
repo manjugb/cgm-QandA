@@ -1,11 +1,11 @@
 # QuestionAndAnswer
 
 # Code src/main/java
-  -added DataAccess hanlding class(IncorrectResultSizeDataAccessException) this would handle the exception from negative cases like with    invalid data while submit querry into into database using flush and saveflush
-  -added the comments what the class and methods do, this would helpul to new people to understand the sin betterway.
+  -Added DataAccess hanlding class(IncorrectResultSizeDataAccessException) this would handle the exception from negative cases like   with    invalid data while submit querry into into database using flush and saveflush
+  -Added the comments what the class and methods do, this would helpul to new people to understand the in betterway.
 # tests src/test/java
-  -added the comments what the class and methods do, this would helpul to new people to understand the in betterway.
-  -modified some of the existing test methods and code
+  -Added the comments what the class and methods do, this would helpul to new people to understand the in betterway.
+  -Modified some of the existing test methods and code
 
 # Features covered with tests
   
@@ -25,7 +25,7 @@ Therefore the following restrictions apply:
   -Added testscripts with positive cases
   -Added testscripts with negative cases
   -Added Exception handling for negative cases to make sure that tests run with out issues
-  -added Assertions against with injected values to make that tests run with out issues.
+  -Added Assertions against with injected values to make that tests run with out issues.
 
 # Getting Started
 
@@ -33,7 +33,7 @@ Therefore the following restrictions apply:
   -What things you need to install the software and how to install them java and maven needs to be install before running this maven project http://maven.apache.org/install.html https://www.java.com/en/
 
 # Command Line:
-download this project unzip and save into local folder where maven and java installed on window command line go to folder run mvn clean test
+Download this project unzip and save into local folder where maven and java installed on window command line go to folder run mvn clean test
 
 # Ecliplse:
 Install spring-boot from eclipse market to run from spring-boot
@@ -41,7 +41,7 @@ Note:Make sure M2E Intalled in Eclipse,but this should come while installed ecli
 
 # Jenkins Steps Build:
 
-1.Click on New job 2.Write Desc and choose maven project(note:maven project is not availble, try install from manage jenkins -> Manage Plugins) 3.Go to build option enter root path with pom.xml 4.save and run build
+1.Click on New job 2.Write Desc and choose maven project(note:if maven project is not availble, try install from manage jenkins -> Manage Plugins) 3.Go to build option enter root path with pom.xml 4.save and run build
 
 
    
