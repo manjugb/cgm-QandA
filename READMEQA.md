@@ -2,9 +2,9 @@
 
 # Code src/main/java
   -Added DataAccess hanlding class(IncorrectResultSizeDataAccessException) this would handle the exception from negative cases like   with    invalid data while submit querry into into database using flush and saveflush
-  -Added the comments what the class and methods do, this would helpul to new people to understand the in betterway.
+  -Added the comments what the class and methods do, this would helpul to new people,product team to understand the in betterway.
 # tests src/test/java
-  -Added the comments what the class and methods do, this would helpul to new people to understand the in betterway.
+  -Added the comments what the class and methods do, this would helpul to new people,product team to understand the in betterway.
   -Modified some of the existing test methods and code
 
 # Features covered with tests
