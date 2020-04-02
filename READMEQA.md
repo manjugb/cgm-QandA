@@ -34,6 +34,7 @@ Therefore the following restrictions apply:
 
 # Command Line:
 Download this project unzip and save into local folder where maven and java installed on window command line go to folder run mvn clean test
+if want run commandline runner and test both on the same line  using this on command line "mvn spring-boot:run || mvn clean verify or clean test or clean package
 
 # Ecliplse:
 Install spring-boot from eclipse market to run from spring-boot
