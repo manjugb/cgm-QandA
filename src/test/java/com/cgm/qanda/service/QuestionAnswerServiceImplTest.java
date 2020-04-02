@@ -554,9 +554,9 @@ public class QuestionAnswerServiceImplTest {
 
 	@Test
 	public void testaddQuestionTest_q255_ans255() throws JdbcSQLException {
-		String ans1 = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready spring application";
+		String ans1 = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready spring applications";
 		String ans2 = "Spring";
-		String qq = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready sprinplications?";
+		String qq = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready sprinplications?ssdgsdgsdgsdgsdgs";
 		try {
 			if (ValidationUtil.validateAlpaCharLength(qq)) {
 				assertEquals(ValidationUtil.validateAlpaCharLength(qq), true);
@@ -605,8 +605,8 @@ public class QuestionAnswerServiceImplTest {
 	// unique answers
 	@Test
 	public void testaddQuestionTest_alpa() {
-		String ans1 = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready spring application";
-		String ans2 = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready spring application";
+		String ans1 = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready spring applications";
+		String ans2 = "Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready spring applications";
 		String qq = "Spring Boot is an open source Java-based framework used to create a micro ServiceIt is developed by Pivotal Team and is used to build stand-alone?";
 		if (ValidationUtil.validateAlpaCharLength(qq)) {
 			assertEquals(ValidationUtil.validateAlpaCharLength(qq), true);

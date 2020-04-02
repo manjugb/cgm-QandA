@@ -49,7 +49,7 @@ public class QuestionRepositoryTest {
 	public void TestRepositoryInjected() {
 		assertNotNull(repository);
 	}
-
+   //valid test
 	@Test
 	public void testSave() {
 		Question question = createUserEntity();
@@ -81,7 +81,7 @@ public class QuestionRepositoryTest {
 		set.add(answer);
 		return question;
 	}
-
+    //valid test
 	@Test
 	public void testSave_one() {
 		String que = "What is Your Favorite Color?";
@@ -108,7 +108,7 @@ public class QuestionRepositoryTest {
 		set.add(answer);
 		return question;
 	}
-
+ //valid test
 	@Test
 	public void testSave_two_ansEmpty() {
 		String que = "What is Your Favorite Reciep?";
@@ -143,7 +143,7 @@ public class QuestionRepositoryTest {
 		set.add(answer);
 		return question;
 	}
-
+    //invalid test
 	@Test
 	public void testSave_two_que_ans_empty() {
 		String que = "";
@@ -179,7 +179,7 @@ public class QuestionRepositoryTest {
 		set.add(answer);
 		return question;
 	}
-
+   //less than 255
 	@Test
 	public void testSave_two_que_lessthan255char() {
 		String que = "This can be achieved by writing test scripts or using any automation testing tool. Test automation is used to automate repetitive tasks and other testing tasks which are difficult to perform manually?";
@@ -190,7 +190,8 @@ public class QuestionRepositoryTest {
 				assertEquals(ValidationUtil.validateAlpaCharLength(que), false);
 			}
 		} catch (NullPointerException e) {
-			System.out.println("Nullpointer Exception caught" + que + "");
+			e.getMessage();
+			//System.out.println("Nullpointer Exception caught" + que + "");
 
 			Question question = createUserEntity_ques_lessthan255();
 			repository.save(question);
@@ -217,7 +218,7 @@ public class QuestionRepositoryTest {
 		set.add(answer);
 		return question;
 	}
-
+  //saveflush case
 	@Test
 	public void testSave_savflush() {
 		String que = "What is Your Favorite Fruites?";
@@ -247,7 +248,7 @@ public class QuestionRepositoryTest {
 		set.add(answer);
 		return question;
 	}
-
+   //greater than
 	@Test
 	public void testSave_savflush_greaterthan255char() throws JdbcSQLException {
 		String que = "Automation testing is a Software testing technique to test and compare the actual outcome with the expected outcome. This can be achieved by writing test scripts or using any automation testing tool. Test automation is used to automate repetitive tasks and other testing tasks which are difficult to perform manually?";
@@ -297,7 +298,8 @@ public class QuestionRepositoryTest {
 			repository.saveAndFlush(question);
 		} catch (DataIntegrityViolationException e) {
 			//Loggabl("Data Integration Violation Exception");
-			System.out.println("Data Integration ViolationException Caught" + que);
+			e.getMessage();
+			System.out.println("Data Integration ViolationException Caught" + e.getMessage() +"");
 		}
 	}	
 }
