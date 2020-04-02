@@ -1,11 +1,11 @@
 # QuestionAndAnswer
 
 # Code src/main/java
-  ##Added DataAccess hanlding class(IncorrectResultSizeDataAccessException) this would handle the exception from negative  cases like   with    invalid data while submit querry into into database using flush and saveflush
-  -Added the comments what the class and methods do, this would helpul to new people,product team to understand the in betterway.
+1.Added DataAccess hanlding class(IncorrectResultSizeDataAccessException) this would handle the exception from negative  cases like with invalid data while submit querry into into database using flush and saveflush
+2.Added the comments what the class and methods do, this would helpul to new people,product team to understand the in betterway.
 # tests src/test/java
-  -Added the comments what the class and methods do, this would helpul to new people,product team to understand the in betterway.
-  -Modified some of the existing test methods and code
+1.Added the comments what the class and methods do, this would helpul to new people,product team to understand the in betterway.
+2.Modified some of the existing test methods and code
 
 # Features covered with tests
   
@@ -22,22 +22,22 @@ Therefore the following restrictions apply:
     - Every Question needs to have at least one answer but can have unlimited answers all inside of char “
   
 # Features vs Tests covered
-  -Added testscripts with positive cases
-  -Added testscripts with negative cases
-  -Added Exception handling for negative cases to make sure that tests run with out issues
-  -Added Assertions against with injected values to make that tests run with out issues.
+  1.Added testscripts with positive cases
+  2.Added testscripts with negative cases
+  3.Added Exception handling for negative cases to make sure that tests run with out issues
+  4.Added Assertions against with injected values to make that tests run with out issues.
 
 # Getting Started
 
 # Prerequisites
-  -What things you need to install the software and how to install them java and maven needs to be install before running this maven project http://maven.apache.org/install.html https://www.java.com/en/
+  1.What things you need to install the software and how to install them java and maven needs to be install before running this maven project http://maven.apache.org/install.html https://www.java.com/en/
 
 # Command Line:
-Download this project unzip and save into local folder where maven and java installed on window command line go to folder run mvn clean test
-if want run commandline runner and test both on the same line  using this on command line "mvn spring-boot:run || mvn clean verify or clean test or clean package
+1.Download this project unzip and save into local folder where maven and java installed on window command line go to folder run mvn clean test
+2.If want run commandline runner and test both on the same line  using this on command line "mvn spring-boot:run || mvn clean verify or clean test or clean package
 
 # Ecliplse:
-Install spring-boot from eclipse market to run from spring-boot
+1.Install spring-boot from eclipse market to run from spring-boot
 Note:Make sure M2E Intalled in Eclipse,but this should come while installed eclipse Download project from this repository 1.open Eclipse create workspace 2.File->Open->Import->Existing Maven Project and click on next 3.successfully import 4.Right Click on Project->Run as->Maven Test
 
 # Jenkins Steps Build:
