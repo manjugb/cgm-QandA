@@ -21,7 +21,7 @@ Therefore the following restrictions apply:
     - Char “?” is the separator between question and answers
     - Every Question needs to have at least one answer but can have unlimited answers all inside of char “
   
-# Features vs Tests covered
+# Features vs Tests covered(above features all covered with below cases)
   1.Added testscripts with positive cases
   2.Added testscripts with negative cases
   3.Added Exception handling for negative cases to make sure that tests run with out issues
